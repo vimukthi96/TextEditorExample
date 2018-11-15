@@ -19,18 +19,19 @@
             android:orientation="horizontal">
             
             <TextView
-                android:layout_width="35dp"
+                android:layout_width="45dp"
                 android:layout_height="match_parent"
                 android:textSize="20dp"
                 android:padding="10dp"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:id="@+id/numberViewText"
                 android:background="#000000"
                 android:textColor="@android:color/darker_gray"/>
-            <EditText
+            <MultiAutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="20dp"
+                android:inputType="textAutoComplete|textMultiLine"
                 android:ems="10"
                 android:padding="10dp"
                 android:layout_gravity="left|top"

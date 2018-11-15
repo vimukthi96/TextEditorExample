@@ -1,13 +1,14 @@
 package com.example.vimukthi.texteditorexample;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -18,7 +19,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,24 +31,33 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.xeoh.android.texthighlighter.TextHighlighter;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import dmax.dialog.SpotsDialog;
 
 
 public class NewFileActivity extends AppCompatActivity {
 
     public TextView txtnumberView;
-    public EditText edtTextView;
+    public MultiAutoCompleteTextView  edtTextView;
     UndoAndRedo undoAndRedo;
     RelativeLayout relativeLayout;
+    Context context;
+    ArrayAdapter<String> adapter;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_file);
 
         txtnumberView = (TextView) findViewById(R.id.numberViewText);
-        edtTextView = (EditText) findViewById(R.id.edtTextView);
+        edtTextView = (MultiAutoCompleteTextView ) findViewById(R.id.edtTextView);
         relativeLayout=(RelativeLayout)findViewById(R.id.layout_root);
         edtTextView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -61,6 +74,26 @@ public class NewFileActivity extends AppCompatActivity {
 
                 }
                 txtnumberView.setText(lineText);
+                String[] html=getResources().getStringArray(R.array.html);
+                adapter=new ArrayAdapter<String>(NewFileActivity.this,android.R.layout.simple_list_item_1,html);
+                edtTextView.setAdapter(adapter);
+                edtTextView.setThreshold(2);
+                edtTextView.setTokenizer(new MultiAutoCompleteTextView.Tokenizer() {
+                    @Override
+                    public int findTokenStart(CharSequence charSequence, int i) {
+                        return 0;
+                    }
+
+                    @Override
+                    public int findTokenEnd(CharSequence charSequence, int i) {
+                        return 0;
+                    }
+
+                    @Override
+                    public CharSequence terminateToken(CharSequence charSequence) {
+                        return null;
+                    }
+                });
 
             }
 
@@ -70,6 +103,8 @@ public class NewFileActivity extends AppCompatActivity {
             }
 
         });
+
+
     }
 
 
@@ -82,8 +117,13 @@ public class NewFileActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_save_btn:
-                Toast.makeText(this, "hehdejd jehfgehkd", Toast.LENGTH_SHORT).show();
+            case R.id.action_save_as_btn:
+             //   Toast.makeText(this, "hehdejd jehfgehkd", Toast.LENGTH_SHORT).show();
+                //saveAsDialog();
+                if(saveAsDialog()==true){
+                    item.setVisible(false);
+                }
+
                 return true;
             case R.id.action_undo_btn:
                 // undoAndRedo.dispatchUndoEvent();
@@ -93,6 +133,7 @@ public class NewFileActivity extends AppCompatActivity {
                 return true;
             case R.id.action_find_btn:
                 showFindDialog();
+
                 //showFindDialog();
                 return true;
         }
@@ -107,7 +148,7 @@ public class NewFileActivity extends AppCompatActivity {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View layout_find = layoutInflater.inflate(R.layout.dialog_find_text, null);
 
-        final MaterialEditText edtTextSEarch = layout_find.findViewById(R.id.reg_email);
+        final MaterialEditText edtTextSearch = layout_find.findViewById(R.id.txt_search);
 
         alertDialog.setView(layout_find);
 
@@ -118,16 +159,16 @@ public class NewFileActivity extends AppCompatActivity {
                 dialog.dismiss();
 
 
-               if (TextUtils.isEmpty(edtTextSEarch.getText())) {
-                  // Toast.makeText(NewFileActivity.this,"TExt field is empty", Toast.LENGTH_SHORT).show();
-                   Snackbar.make(relativeLayout,"find text field is empty or space",Snackbar.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(edtTextSearch.getText())) {
+                    // Toast.makeText(NewFileActivity.this,"TExt field is empty", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(relativeLayout,"find text field is empty or space",Snackbar.LENGTH_SHORT).show();
                     return;
                 }
 
                 // final SpotsDialog waitingDialog=new SpotsDialog(NewFileActivity.this);
                 // waitingDialog.show();
 
-                textHihjlight(edtTextSEarch.getText().toString());
+                textHihjlight(edtTextSearch.getText().toString());
             }
         });
         alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -141,6 +182,98 @@ public class NewFileActivity extends AppCompatActivity {
 
 
     }
+
+    private boolean saveAsDialog() {
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Save As");
+
+
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View layout_save_as = layoutInflater.inflate(R.layout.dialog_save_as, null);
+
+        final MaterialEditText edtTextName = layout_save_as.findViewById(R.id.dialog_name);
+        final MaterialEditText edtFolderPath = layout_save_as.findViewById(R.id.dialog_path);
+
+        alertDialog.setView(layout_save_as);
+        String FilePath= Environment.getExternalStorageDirectory().getAbsolutePath() +"/vTextEditor";
+        edtFolderPath.setText(FilePath);
+
+        alertDialog.setPositiveButton("Save As", new DialogInterface.OnClickListener() {
+
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+
+               if (TextUtils.isEmpty(edtTextName.getText())) {
+                  // Toast.makeText(NewFileActivity.this,"TExt field is empty", Toast.LENGTH_SHORT).show();
+                   Snackbar.make(relativeLayout,"name text field is empty or space",Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(edtFolderPath.getText())) {
+                    // Toast.makeText(NewFileActivity.this,"TExt field is empty", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(relativeLayout,"folder path text field is empty or space",Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // final SpotsDialog waitingDialog=new SpotsDialog(NewFileActivity.this);
+                // waitingDialog.show();
+                //FlieSaveDialog fileSaveDialog = null;
+
+                //fileSaveDialog.
+                createPDF(edtTextName.getText().toString(),edtFolderPath.getText().toString(),edtTextView.getText().toString());
+             //  saveDialog(edtTextName.getText().toString(),edtFolderPath.getText().toString());
+            }
+        });
+        alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alertDialog.show();
+
+    return true;
+    }
+  /*  private void saveDialog(String path,String name) {
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Save");
+
+
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View layout_save_as = layoutInflater.inflate(R.layout.dialog_save_as, null);
+
+
+  //      final MaterialEditText edtTextName = layout_save_as.findViewById(R.id.dialog_name);
+      //  final MaterialEditText edtFolderPath = layout_save_as.findViewById(R.id.dialog_path);
+        edtTextName.setText();
+        alertDialog.setView(layout_save_as);
+        alertDialog.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+        String fileBody=edtTextView.getText().toString();
+            String filePath=path;
+            String fileName=name;
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+                createPDF( fileName, filePath, fileBody);
+
+            }
+        });
+        alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alertDialog.show();
+
+
+    }*/
 
  /* boolean isHighlight = false;
     TextHighlighter textHighlighter;*/
@@ -202,6 +335,40 @@ public class NewFileActivity extends AppCompatActivity {
 
         }
     }
+    public void createPDF(String fileName,String filePath,String fileBody){
+        String name=fileName;
+        String path=filePath ;
+        String body=fileBody;
+
+        File dir =new File(path);
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+
+        File file =new File(path,name);
+
+        try {
+            FileOutputStream outputStream;
+
+            outputStream = new FileOutputStream(file);
+            outputStream.write(body.getBytes());
+            outputStream.close();
+             Toast.makeText(getBaseContext(), "Saved", Toast.LENGTH_SHORT).show();
+            //  return true;
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+              Toast.makeText(getApplicationContext(), "File Not Found", Toast.LENGTH_SHORT).show();
+            //    return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+              Toast.makeText(getApplicationContext(), "Error Saving", Toast.LENGTH_SHORT).show();
+            //    return false;
+        }
+
+
+    }
+
 }
 
 
