@@ -80,18 +80,55 @@ public class NewFileActivity extends AppCompatActivity {
                 edtTextView.setThreshold(2);
                 edtTextView.setTokenizer(new MultiAutoCompleteTextView.Tokenizer() {
                     @Override
-                    public int findTokenStart(CharSequence charSequence, int i) {
-                        return 0;
+                    public int findTokenStart(CharSequence charSequence, int cursor) {
+                        int i = cursor;
+
+                        while (i > 0 && charSequence.charAt(i - 1) != '<') {
+                            i--;
+                        }
+                        while (i < cursor && charSequence.charAt(i) == '<') {
+                            i++;
+                        }
+
+                        return i;
                     }
 
                     @Override
-                    public int findTokenEnd(CharSequence charSequence, int i) {
-                        return 0;
+                    public int findTokenEnd(CharSequence charSequence, int cursor) {
+                        int i = cursor;
+                        int len = charSequence.length();
+
+                        while (i < len) {
+                            if (charSequence.charAt(i) == ' ') {
+                                return i;
+                            } else {
+                                i++;
+                            }
+                        }
+
+                        return len;
                     }
 
                     @Override
                     public CharSequence terminateToken(CharSequence charSequence) {
-                        return null;
+                        int i = charSequence.length();
+
+                        while (i > 0 && charSequence.charAt(i - 1) == ' ') {
+                            i--;
+                        }
+
+                        if (i > 0 && charSequence.charAt(i - 1) == ' ') {
+                            return charSequence;
+                        } else {
+                            if (charSequence instanceof Spanned) {
+                                SpannableString sp = new SpannableString(charSequence + " ");
+                                TextUtils.copySpansFrom((Spanned) charSequence, 0, charSequence.length(),
+                                        Object.class, sp, 0);
+                                return sp;
+                            } else {
+                                return charSequence + ">";
+                            }
+                        }
                     }
                 });
 
