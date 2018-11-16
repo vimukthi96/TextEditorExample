@@ -43,11 +43,13 @@ public class NewFileActivity extends AppCompatActivity {
 
     public TextView txtnumberView;
     public MultiAutoCompleteTextView  edtTextView;
-    UndoAndRedo undoAndRedo;
     RelativeLayout relativeLayout;
-    Context context;
     ArrayAdapter<String> adapter;
-    //UndoManager undoManager;
+    TextViewUndoRedo helper;
+    Menu menu;
+    MenuItem undo_btn;
+    //boolean b = false;
+    MenuItem redo_btn;
 
 
 
@@ -60,6 +62,7 @@ public class NewFileActivity extends AppCompatActivity {
         txtnumberView = (TextView) findViewById(R.id.numberViewText);
         edtTextView = (MultiAutoCompleteTextView ) findViewById(R.id.edtTextView);
         relativeLayout=(RelativeLayout)findViewById(R.id.layout_root);
+        helper = new TextViewUndoRedo(edtTextView);
         edtTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -68,87 +71,119 @@ public class NewFileActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                                int lines = edtTextView.getLineCount();
-                                String lineText = "";
-                                for (int r = 1; r <= lines; r++) {
-                                    lineText = lineText + r + "\n";
+                int lines = edtTextView.getLineCount();
+                String lineText = "";
+                for (int r = 1; r <= lines; r++) {
+                    lineText = lineText + r + "\n";
 
-                                }
-                                txtnumberView.setText(lineText);
-                                String[] html=getResources().getStringArray(R.array.html);
-                                adapter=new ArrayAdapter<String>(NewFileActivity.this,android.R.layout.simple_list_item_1,html);
-                                edtTextView.setAdapter(adapter);
-                                edtTextView.setThreshold(2);
-                                edtTextView.setTokenizer(new MultiAutoCompleteTextView.Tokenizer() {
-                                    @Override
-                                    public int findTokenStart(CharSequence charSequence, int cursor) {
-                                        int i = cursor;
+                }
+                txtnumberView.setText(lineText);
+                String[] html = getResources().getStringArray(R.array.html);
+                adapter = new ArrayAdapter<String>(NewFileActivity.this, android.R.layout.simple_list_item_1, html);
+                edtTextView.setAdapter(adapter);
+                edtTextView.setThreshold(2);
+                edtTextView.setTokenizer(new MultiAutoCompleteTextView.Tokenizer() {
+                    @Override
+                    public int findTokenStart(CharSequence charSequence, int cursor) {
+                        int i = cursor;
 
-                                        while (i > 0 && charSequence.charAt(i - 1) != '<') {
-                                            i--;
-                                        }
-                                        while (i < cursor && charSequence.charAt(i) == '<') {
-                                            i++;
-                                        }
+                        while (i > 0 && charSequence.charAt(i - 1) != '<') {
+                            i--;
+                        }
+                        while (i < cursor && charSequence.charAt(i) == '<') {
+                            i++;
+                        }
 
-                                        return i;
-                                    }
+                        return i;
+                    }
 
-                                    @Override
-                                    public int findTokenEnd(CharSequence charSequence, int cursor) {
-                                        int i = cursor;
-                                        int len = charSequence.length();
+                    @Override
+                    public int findTokenEnd(CharSequence charSequence, int cursor) {
+                        int i = cursor;
+                        int len = charSequence.length();
 
-                                        while (i < len) {
-                                            if (charSequence.charAt(i) == ' ') {
-                                                return i;
-                                            } else {
-                                                i++;
-                                            }
-                                        }
+                        while (i < len) {
+                            if (charSequence.charAt(i) == ' ') {
+                                return i;
+                            } else {
+                                i++;
+                            }
+                        }
 
-                                        return len;
-                                    }
+                        return len;
+                    }
 
-                                    @Override
-                                    public CharSequence terminateToken(CharSequence charSequence) {
-                                        int i = charSequence.length();
+                    @Override
+                    public CharSequence terminateToken(CharSequence charSequence) {
+                        int i = charSequence.length();
 
-                                        while (i > 0 && charSequence.charAt(i - 1) == ' ') {
-                                            i--;
-                                        }
+                        while (i > 0 && charSequence.charAt(i - 1) == ' ') {
+                            i--;
+                        }
 
-                                        if (i > 0 && charSequence.charAt(i - 1) == ' ') {
-                                            return charSequence;
-                                        } else {
-                                            if (charSequence instanceof Spanned) {
-                                                SpannableString sp = new SpannableString(charSequence + " ");
-                                                TextUtils.copySpansFrom((Spanned) charSequence, 0, charSequence.length(),
-                                                        Object.class, sp, 0);
-                                                return sp;
-                                            } else {
-                                                return charSequence + ">"+"</"+charSequence+">";
-                                            }
+                        if (i > 0 && charSequence.charAt(i - 1) == ' ') {
+                            return charSequence;
+                        } else {
+                            if (charSequence instanceof Spanned) {
+                                SpannableString sp = new SpannableString(charSequence + " ");
+                                TextUtils.copySpansFrom((Spanned) charSequence, 0, charSequence.length(),
+                                        Object.class, sp, 0);
+                                return sp;
+                            } else {
+                                return charSequence + ">" + "</" + charSequence + ">";
+                            }
                         }
                     }
                 });
+                textInType();
+
 
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
 
             }
-
         });
 
 
+
+}
+            public boolean textInType() {
+                if (edtTextView.getText().length() == 0) {
+                   // undoBtn.setEnabled(false);
+                    undo_btn.setVisible(false);
+                    redo_btn.setVisible(false);
+                    return false;
+                } else {
+                 //   undoBtn.setEnabled(true);
+                  //  b=true;
+                    undo_btn.setVisible(true);
+                    return true;
+
+                }
+            }
+
+
+            private void performRedo() {
+                helper.redo();
+            }
+
+            private void performUndo() {
+                helper.undo();
+            }
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        //   undo_btn.setEnabled(b);
+        undo_btn.setVisible(false);
+        redo_btn.setVisible(false);
+        super.onPrepareOptionsMenu(menu);
+        return true;
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.new_file_view, menu);
+        undo_btn = (MenuItem) menu.findItem(R.id.action_undo_btn);
+        redo_btn = (MenuItem) menu.findItem(R.id.action_redo_btn);
         return true;
     }
 
@@ -164,16 +199,19 @@ public class NewFileActivity extends AppCompatActivity {
 
                 return true;
             case R.id.action_undo_btn:
-                FlieSaveDialog helper = new FlieSaveDialog(edtTextView);
-                helper.undo();
+                if (textInType() == true) {
+
+                    performUndo();
+                }
+                redo_btn.setVisible(true);
                 return true;
+
             case R.id.action_redo_btn:
-                //  undoAndRedo.dispatchRedoEvent();
+                performRedo();
                 return true;
+
             case R.id.action_find_btn:
                 showFindDialog();
-
-                //showFindDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -407,6 +445,7 @@ public class NewFileActivity extends AppCompatActivity {
 
 
     }
+
 
 }
 
