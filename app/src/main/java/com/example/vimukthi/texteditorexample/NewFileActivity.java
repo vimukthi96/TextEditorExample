@@ -51,6 +51,7 @@ public class NewFileActivity extends AppCompatActivity {
     //boolean b = false;
     MenuItem redo_btn;
     FileSaveDialog fileSaveDialog;
+    FindTextDialog findTextDialog;
     Context context;
 
 
@@ -67,6 +68,8 @@ public class NewFileActivity extends AppCompatActivity {
         helper = new TextViewUndoRedo(edtTextView);
         context=NewFileActivity.this;
         fileSaveDialog = new FileSaveDialog(context);
+        findTextDialog=new FindTextDialog(context);
+
         edtTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -215,54 +218,12 @@ public class NewFileActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_find_btn:
-                showFindDialog();
+                findTextDialog.showFindDialog(edtTextView);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void showFindDialog() {
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Find");
-
-
-        LayoutInflater layoutInflater = LayoutInflater.from(this);
-        View layout_find = layoutInflater.inflate(R.layout.dialog_find_text, null);
-
-        final MaterialEditText edtTextSearch = layout_find.findViewById(R.id.txt_search);
-
-        alertDialog.setView(layout_find);
-
-        alertDialog.setPositiveButton("Find", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-
-
-                if (TextUtils.isEmpty(edtTextSearch.getText())) {
-                    // Toast.makeText(NewFileActivity.this,"TExt field is empty", Toast.LENGTH_SHORT).show();
-                    Snackbar.make(relativeLayout,"find text field is empty or space",Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // final SpotsDialog waitingDialog=new SpotsDialog(NewFileActivity.this);
-                // waitingDialog.show();
-
-                textHihjlight(edtTextSearch.getText().toString());
-            }
-        });
-        alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        alertDialog.show();
-
-
-    }
 
 
   /*  private void saveDialog(String path,String name) {
@@ -306,63 +267,7 @@ public class NewFileActivity extends AppCompatActivity {
  /* boolean isHighlight = false;
     TextHighlighter textHighlighter;*/
 
-    private void textHihjlight(String text) {
-    /*    if(!isHighlight) {
-            textHighlighter= new TextHighlighter();
-            textHighlighter
-                    .setBackgroundColor(Color.parseColor("FFFF00"))
-                    .setForegroundColor(Color.RED)
-                    .addTarget(findViewById(R.id.edtTextView))
-                    .highlight("html", TextHighlighter.BASE_MATCHER);
 
-        }
-        else{
-            textHighlighter.setBackgroundColor(Color.TRANSPARENT)
-                    .setForegroundColor(edtTextView.getCurrentTextColor())
-                    .invalidate( TextHighlighter.BASE_MATCHER);
-        }
-        isHighlight =! isHighlight;*/
-       /* String cv=edtTextView.getText().toString();
-        SpannableString ss=new SpannableString(cv);
-        BackgroundColorSpan backgroundColorSpan=new BackgroundColorSpan(Color.YELLOW);
-        ss.setSpan(backgroundColorSpan,0,5,SPAN_EXCLUSIVE_EXCLUSIVE);
-        edtTextView.setText(ss);*/
-        String mainString = edtTextView.getText().toString();
-        String subString = text;
-
-
-      /*  if(mainString.contains(subString)) {
-            int startIndex = mainString.indexOf(subString);
-            int endIndex = startIndex + subString.length();
-            SpannableString spannableString = new SpannableString(mainString);
-            spannableString.setSpan(new BackgroundColorSpan(Color.parseColor("#ffff00")), startIndex, endIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            edtTextView.setText(spannableString);
-        }
-   /*     String adam = "<font color=#FFFF00>"+subString+"</font>";
-      //  String str = "Na Adam ne ne yere Hawa: Na Adam xwoo xbabarima";
-        String newString = mainString.replaceAll(subString, adam);
-        edtTextView.setText(Html.fromHtml(newString));*/
-        //   String str = "Na Adam ne ne yere Hawa: Na Adam xwoo xbabarima";
-        //    String stringToColor = "Adam";
-        int ofe = mainString.indexOf(subString, 0);
-        Spannable WordtoSpan = new SpannableString(mainString);
-
-        for (int ofs = 0; ofs < mainString.length() && ofe != -1; ofs = ofe + 1) {
-
-
-            ofe = mainString.indexOf(subString, ofs);
-            if (ofe == -1)
-                break;
-            else {
-
-                WordtoSpan.setSpan(new BackgroundColorSpan(Color.YELLOW), ofe, ofe + subString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                edtTextView.setText(WordtoSpan, TextView.BufferType.SPANNABLE);
-            }
-
-
-        }
-    }
 
 
 
