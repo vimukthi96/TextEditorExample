@@ -50,6 +50,8 @@ public class NewFileActivity extends AppCompatActivity {
     MenuItem undo_btn;
     //boolean b = false;
     MenuItem redo_btn;
+    FileSaveDialog fileSaveDialog;
+    Context context;
 
 
 
@@ -63,6 +65,8 @@ public class NewFileActivity extends AppCompatActivity {
         edtTextView = (MultiAutoCompleteTextView ) findViewById(R.id.edtTextView);
         relativeLayout=(RelativeLayout)findViewById(R.id.layout_root);
         helper = new TextViewUndoRedo(edtTextView);
+        context=NewFileActivity.this;
+        fileSaveDialog = new FileSaveDialog(context);
         edtTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -193,7 +197,7 @@ public class NewFileActivity extends AppCompatActivity {
             case R.id.action_save_as_btn:
              //   Toast.makeText(this, "hehdejd jehfgehkd", Toast.LENGTH_SHORT).show();
                 //saveAsDialog();
-                if(saveAsDialog()==true){
+                if(fileSaveDialog.saveAsDialog(edtTextView)==true){
                     item.setVisible(false);
                 }
 
@@ -260,60 +264,7 @@ public class NewFileActivity extends AppCompatActivity {
 
     }
 
-    private boolean saveAsDialog() {
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Save As");
 
-
-        LayoutInflater layoutInflater = LayoutInflater.from(this);
-        View layout_save_as = layoutInflater.inflate(R.layout.dialog_save_as, null);
-
-        final MaterialEditText edtTextName = layout_save_as.findViewById(R.id.dialog_name);
-        final MaterialEditText edtFolderPath = layout_save_as.findViewById(R.id.dialog_path);
-
-        alertDialog.setView(layout_save_as);
-        String FilePath= Environment.getExternalStorageDirectory().getAbsolutePath() +"/vTextEditor";
-        edtFolderPath.setText(FilePath);
-
-        alertDialog.setPositiveButton("Save As", new DialogInterface.OnClickListener() {
-
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-
-
-               if (TextUtils.isEmpty(edtTextName.getText())) {
-                  // Toast.makeText(NewFileActivity.this,"TExt field is empty", Toast.LENGTH_SHORT).show();
-                   Snackbar.make(relativeLayout,"name text field is empty or space",Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(edtFolderPath.getText())) {
-                    // Toast.makeText(NewFileActivity.this,"TExt field is empty", Toast.LENGTH_SHORT).show();
-                    Snackbar.make(relativeLayout,"folder path text field is empty or space",Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // final SpotsDialog waitingDialog=new SpotsDialog(NewFileActivity.this);
-                // waitingDialog.show();
-                //FlieSaveDialog fileSaveDialog = null;
-
-                //fileSaveDialog.
-                createPDF(edtTextName.getText().toString(),edtFolderPath.getText().toString(),edtTextView.getText().toString());
-             //  saveDialog(edtTextName.getText().toString(),edtFolderPath.getText().toString());
-            }
-        });
-        alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        alertDialog.show();
-
-    return true;
-    }
   /*  private void saveDialog(String path,String name) {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Save");
@@ -412,39 +363,7 @@ public class NewFileActivity extends AppCompatActivity {
 
         }
     }
-    public void createPDF(String fileName,String filePath,String fileBody){
-        String name=fileName;
-        String path=filePath ;
-        String body=fileBody;
 
-        File dir =new File(path);
-        if(!dir.exists()){
-            dir.mkdirs();
-        }
-
-        File file =new File(path,name);
-
-        try {
-            FileOutputStream outputStream;
-
-            outputStream = new FileOutputStream(file);
-            outputStream.write(body.getBytes());
-            outputStream.close();
-             Toast.makeText(getBaseContext(), "Saved", Toast.LENGTH_SHORT).show();
-            //  return true;
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-              Toast.makeText(getApplicationContext(), "File Not Found", Toast.LENGTH_SHORT).show();
-            //    return false;
-        } catch (IOException e) {
-            e.printStackTrace();
-              Toast.makeText(getApplicationContext(), "Error Saving", Toast.LENGTH_SHORT).show();
-            //    return false;
-        }
-
-
-    }
 
 
 }
