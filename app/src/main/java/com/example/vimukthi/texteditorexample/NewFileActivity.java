@@ -144,6 +144,14 @@ public class NewFileActivity extends AppCompatActivity {
                 }
 
                 return true;
+            case R.id.action_save_btn:
+                //   Toast.makeText(this, "hehdejd jehfgehkd", Toast.LENGTH_SHORT).show();
+                //saveAsDialog();
+                if(fileSaveDialog.saveDialog(edtTextView)==true){
+                 //   item.setVisible(false);
+                }
+
+                return true;
             case R.id.action_undo_btn:
                 if (textInType() == true) {
 

@@ -22,6 +22,9 @@ import java.io.IOException;
 public class FileSaveDialog {
     RelativeLayout relativeLayout;
     MultiAutoCompleteTextView editTextView;
+    String FilePath;
+    String FileName;
+    String FileBody;
 
 
     Context context;
@@ -44,7 +47,7 @@ public class FileSaveDialog {
         final MaterialEditText edtFolderPath = layout_save_as.findViewById(R.id.dialog_path);
 
         alertDialog.setView(layout_save_as);
-        String FilePath= Environment.getExternalStorageDirectory().getAbsolutePath() +"/vTextEditor";
+        FilePath= Environment.getExternalStorageDirectory().getAbsolutePath() +"/vTextEditor";
         edtFolderPath.setText(FilePath);
 
         alertDialog.setPositiveButton("Save As", new DialogInterface.OnClickListener() {
@@ -71,7 +74,11 @@ public class FileSaveDialog {
                 //FlieSaveDialog fileSaveDialog = null;
 
                 //fileSaveDialog.
-                createPDF(edtTextName.getText().toString(),edtFolderPath.getText().toString(),editTextView.getText().toString());
+                FileName = edtTextName.getText().toString();
+                FilePath = edtFolderPath.getText().toString();
+                FileBody = editTextView.getText().toString();
+
+                createPDF(FileName,FilePath,FileBody);
                 //  saveDialog(edtTextName.getText().toString(),edtFolderPath.getText().toString());
             }
         });
@@ -86,6 +93,53 @@ public class FileSaveDialog {
 
         return true;
     }
+    public boolean saveDialog( MultiAutoCompleteTextView edtTextView) {
+        editTextView =edtTextView;
+
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+        alertDialog.setTitle("Save ");
+        alertDialog.setMessage("Do you want to save?");
+
+
+     //   LayoutInflater layoutInflater = LayoutInflater.from(context);
+     //   View layout_save_as = layoutInflater.inflate(R.layout.dialog_save_as, null);
+
+    //    final MaterialEditText edtTextName = layout_save_as.findViewById(R.id.dialog_name);
+     //   final MaterialEditText edtFolderPath = layout_save_as.findViewById(R.id.dialog_path);
+     //   edtFolderPath.setEnabled(false);
+     //   edtTextName.setEnabled(false);
+
+     //   alertDialog.setView(layout_save_as);
+
+        //FilePath= Environment.getExternalStorageDirectory().getAbsolutePath() +"/vTextEditor";
+        //edtStringFolderPath.setText(FilePath);
+
+        alertDialog.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+
+
+                FileBody=editTextView.getText().toString();
+                createPDF(FileName,FilePath,FileBody);
+                //  saveDialog(edtTextName.getText().toString(),edtFolderPath.getText().toString());
+            }
+        });
+        alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alertDialog.show();
+
+        return true;
+    }
+
     public void createPDF(String fileName,String filePath,String fileBody){
         String name=fileName;
         String path=filePath ;
