@@ -5,6 +5,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
@@ -15,7 +16,7 @@ public class AutoCompleteText {
     MultiAutoCompleteTextView edtTextView;
     TextView txtnumberView;
     ArrayAdapter<String> adapter;
-
+    ListView listView ;
     public AutoCompleteText(Context context) {
         this.context = context;
     }
@@ -33,9 +34,9 @@ public class AutoCompleteText {
         }
         txtnumberView.setText(lineText);
         String[] html = context.getResources().getStringArray(R.array.html);
-        adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, html);
+        adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, html);
         edtTextView.setAdapter(adapter);
-        edtTextView.setThreshold(2);
+        edtTextView.setThreshold(1);
         edtTextView.setTokenizer(new MultiAutoCompleteTextView.Tokenizer() {
             @Override
             public int findTokenStart(CharSequence charSequence, int cursor) {

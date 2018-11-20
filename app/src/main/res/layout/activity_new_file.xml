@@ -15,30 +15,45 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
-            
+
             <TextView
-                android:layout_width="45dp"
-                android:layout_height="match_parent"
-                android:textSize="20dp"
-                android:padding="10dp"
-                android:gravity="center"
                 android:id="@+id/numberViewText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:background="#000000"
-                android:textColor="@android:color/darker_gray"/>
-            <MultiAutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="20dp"
-                android:inputType="textAutoComplete|textMultiLine"
-                android:ems="10"
                 android:padding="10dp"
-                android:layout_gravity="left|top"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="20dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:paddingBottom="500dp"/>
+
+            <MultiAutoCompleteTextView
                 android:id="@+id/edtTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/numberViewText"
+                android:layout_gravity="left|top"
+                android:backgroundTint="@android:color/white"
+                android:ems="10"
+                android:inputType="textAutoComplete|textMultiLine"
+                android:textColor="@android:color/black"
+                android:padding="10dp"
                 android:selectAllOnFocus="true"
-                android:backgroundTint="@android:color/white"/>
-        </LinearLayout>
-        
+                android:textSize="20dp"
+                android:dropDownHeight="fill_parent"
+                android:dropDownWidth="match_parent"
+              />
+                </LinearLayout>
+
     </ScrollView>
 </RelativeLayout>
