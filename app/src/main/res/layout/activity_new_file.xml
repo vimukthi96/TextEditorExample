@@ -50,9 +50,7 @@
                 android:padding="10dp"
                 android:selectAllOnFocus="true"
                 android:textSize="20dp"
-                android:dropDownHeight="fill_parent"
-                android:dropDownWidth="match_parent"
-              />
+               />
                 </LinearLayout>
 
     </ScrollView>

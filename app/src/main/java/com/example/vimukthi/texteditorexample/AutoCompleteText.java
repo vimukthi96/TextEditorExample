@@ -34,9 +34,9 @@ public class AutoCompleteText {
         }
         txtnumberView.setText(lineText);
         String[] html = context.getResources().getStringArray(R.array.html);
-        adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, html);
+        adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_activated_1, html);
         edtTextView.setAdapter(adapter);
-        edtTextView.setThreshold(1);
+        edtTextView.setThreshold(2);
         edtTextView.setTokenizer(new MultiAutoCompleteTextView.Tokenizer() {
             @Override
             public int findTokenStart(CharSequence charSequence, int cursor) {
