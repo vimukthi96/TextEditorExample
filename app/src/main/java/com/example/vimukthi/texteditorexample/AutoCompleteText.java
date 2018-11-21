@@ -1,6 +1,7 @@
 package com.example.vimukthi.texteditorexample;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -35,6 +36,7 @@ public class AutoCompleteText {
         txtnumberView.setText(lineText);
         String[] html = context.getResources().getStringArray(R.array.html);
         adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_activated_1, html);
+      //  adapter.getPosition(Cursor cursor);
         edtTextView.setAdapter(adapter);
         edtTextView.setThreshold(2);
         edtTextView.setTokenizer(new MultiAutoCompleteTextView.Tokenizer() {

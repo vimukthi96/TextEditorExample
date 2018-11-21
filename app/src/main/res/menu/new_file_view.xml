@@ -5,10 +5,21 @@
     tools:context=".NewFileActivity">
 
     <item
-        android:id="@+id/action_save_as_btn"
+        android:id="@+id/action_saving_mode"
         android:icon="@drawable/ic_save_black_24dp"
         app:showAsAction="always"
-        android:title="save"/>
+        android:title="save">
+        <menu>
+            <item
+                android:id="@+id/action_save_btn"
+                app:showAsAction="ifRoom"
+                android:title="Save"/>
+            <item
+                android:id="@+id/action_save_as_btn"
+                app:showAsAction="ifRoom"
+                android:title="Save As"/>
+        </menu>
+    </item>
     <item
         android:id="@+id/action_undo_btn"
         android:icon="@drawable/ic_undo_black_24dp"
@@ -23,10 +34,6 @@
         android:id="@+id/action_find_btn"
         app:showAsAction="always"
         android:title="fi"/>
-    <item
-        android:id="@+id/action_save_btn"
-        app:showAsAction="never"
-        android:title="save"/>
 
 
 

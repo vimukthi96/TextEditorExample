@@ -53,6 +53,8 @@ public class NewFileActivity extends AppCompatActivity {
     FindTextDialog findTextDialog;
     AutoCompleteText autoCompleteText;
     Context context;
+    MenuItem save_btn;
+
 
 
 
@@ -99,6 +101,7 @@ public class NewFileActivity extends AppCompatActivity {
                    // undoBtn.setEnabled(false);
                     undo_btn.setVisible(false);
                     redo_btn.setVisible(false);
+                    save_btn.setVisible(false);
                     return false;
                 } else {
                  //   undoBtn.setEnabled(true);
@@ -122,6 +125,7 @@ public class NewFileActivity extends AppCompatActivity {
         //   undo_btn.setEnabled(b);
         undo_btn.setVisible(false);
         redo_btn.setVisible(false);
+        save_btn.setVisible(false);
         super.onPrepareOptionsMenu(menu);
         return true;
     }
@@ -130,6 +134,7 @@ public class NewFileActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.new_file_view, menu);
         undo_btn = (MenuItem) menu.findItem(R.id.action_undo_btn);
         redo_btn = (MenuItem) menu.findItem(R.id.action_redo_btn);
+        save_btn = (MenuItem) menu.findItem(R.id.action_save_btn);
         return true;
     }
 
@@ -140,16 +145,14 @@ public class NewFileActivity extends AppCompatActivity {
              //   Toast.makeText(this, "hehdejd jehfgehkd", Toast.LENGTH_SHORT).show();
                 //saveAsDialog();
                 if(fileSaveDialog.saveAsDialog(edtTextView)==true){
-                    item.setVisible(false);
+                    save_btn.setVisible(true);
                 }
 
                 return true;
             case R.id.action_save_btn:
-                //   Toast.makeText(this, "hehdejd jehfgehkd", Toast.LENGTH_SHORT).show();
-                //saveAsDialog();
-                if(fileSaveDialog.saveDialog(edtTextView)==true){
-                 //   item.setVisible(false);
-                }
+
+                fileSaveDialog.saveDialog(edtTextView);
+                
 
                 return true;
             case R.id.action_undo_btn:
