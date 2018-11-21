@@ -21,12 +21,13 @@ public class FindTextDialog {
 
     MultiAutoCompleteTextView edtTextView;
     Context context;
+    String subString;
 
     public FindTextDialog(Context context1) {
         this.context =context1;
     }
 
-    public void showFindDialog(MultiAutoCompleteTextView editTextView) {
+    public boolean showFindDialog(MultiAutoCompleteTextView editTextView) {
 
         edtTextView =editTextView;
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
@@ -53,10 +54,9 @@ public class FindTextDialog {
                     return;
                 }
 
-                // final SpotsDialog waitingDialog=new SpotsDialog(NewFileActivity.this);
-                // waitingDialog.show();
-
-                textHihjlight(edtTextSearch.getText().toString());
+              //  textHihjlight(edtTextSearch.getText().toString());
+                subString = edtTextSearch.getText().toString();
+                textHihjlight();
             }
         });
         alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -68,9 +68,9 @@ public class FindTextDialog {
 
         alertDialog.show();
 
-
+    return true;
     }
-    private void textHihjlight(String text) {
+    public boolean textHihjlight() {
     /*    if(!isHighlight) {
             textHighlighter= new TextHighlighter();
             textHighlighter
@@ -92,7 +92,7 @@ public class FindTextDialog {
         ss.setSpan(backgroundColorSpan,0,5,SPAN_EXCLUSIVE_EXCLUSIVE);
         edtTextView.setText(ss);*/
         String mainString = edtTextView.getText().toString();
-        String subString = text;
+     //   subString = text;
 
 
       /*  if(mainString.contains(subString)) {
@@ -119,13 +119,16 @@ public class FindTextDialog {
             if (ofe == -1)
                 break;
             else {
-
                 WordtoSpan.setSpan(new BackgroundColorSpan(Color.YELLOW), ofe, ofe + subString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 edtTextView.setText(WordtoSpan, TextView.BufferType.SPANNABLE);
             }
 
 
         }
+
+        return true;
     }
+
+
 
 }

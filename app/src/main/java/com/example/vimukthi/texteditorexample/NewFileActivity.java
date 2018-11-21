@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Watchable;
 
 import dmax.dialog.SpotsDialog;
 
@@ -76,6 +77,7 @@ public class NewFileActivity extends AppCompatActivity {
         edtTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //edtTextView.setHighlightColor(Color.RED);
 
             }
 
@@ -85,8 +87,27 @@ public class NewFileActivity extends AppCompatActivity {
                 autoCompleteText.autoOnchange(edtTextView,txtnumberView);
                 textInType();
 
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //edtTextView.setHighlightColor(Color.RED);
+               // textAtNormal();
 
             }
+        });
+
+        edtTextView.removeTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                edtTextView.setTextColor(Color.RED);
+            }
+
             @Override
             public void afterTextChanged(Editable editable) {
 
@@ -107,6 +128,7 @@ public class NewFileActivity extends AppCompatActivity {
                  //   undoBtn.setEnabled(true);
                   //  b=true;
                     undo_btn.setVisible(true);
+
                     return true;
 
                 }
@@ -144,15 +166,16 @@ public class NewFileActivity extends AppCompatActivity {
             case R.id.action_save_as_btn:
              //   Toast.makeText(this, "hehdejd jehfgehkd", Toast.LENGTH_SHORT).show();
                 //saveAsDialog();
-                if(fileSaveDialog.saveAsDialog(edtTextView)==true){
+            /*    if(fileSaveDialog.saveAsDialog(edtTextView)==true){
                     save_btn.setVisible(true);
-                }
+                }*/
+               // textAtNormal();
 
                 return true;
             case R.id.action_save_btn:
 
                 fileSaveDialog.saveDialog(edtTextView);
-                
+               // textAtNormals();
 
                 return true;
             case R.id.action_undo_btn:
@@ -175,53 +198,38 @@ public class NewFileActivity extends AppCompatActivity {
     }
 
 
+    public void textAtNormal() {
+       // wacher =context;
 
-  /*  private void saveDialog(String path,String name) {
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Save");
+        //edtTextView.setColo(Color.RED);
+
+       // String subString=null;
+
+        String mainString = edtTextView.getText().toString();
+      //  int ofe = mainString.indexOf(mainString, 0);
+        Spannable WordtoSpan = new SpannableString(mainString);
+        //edtTextView.setHighlightColor(Color.RED);
+     /*   for (int ofs = 0; ofs < mainString.length() && ofe != -1; ofs = ofe + 1) {
 
 
-        LayoutInflater layoutInflater = LayoutInflater.from(this);
-        View layout_save_as = layoutInflater.inflate(R.layout.dialog_save_as, null);
+            ofe = mainString.indexOf(mainString, ofs);
+            if (ofe == -1)
+                break;
+            else {*/
 
-
-  //      final MaterialEditText edtTextName = layout_save_as.findViewById(R.id.dialog_name);
-      //  final MaterialEditText edtFolderPath = layout_save_as.findViewById(R.id.dialog_path);
-        edtTextName.setText();
-        alertDialog.setView(layout_save_as);
-        alertDialog.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-        String fileBody=edtTextView.getText().toString();
-            String filePath=path;
-            String fileName=name;
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-
-                createPDF( fileName, filePath, fileBody);
-
+                WordtoSpan.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), mainString.indexOf(mainString, 0), mainString.indexOf(mainString, 0) + mainString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                edtTextView.setText(WordtoSpan, TextView.BufferType.SPANNABLE);
             }
-        });
-        alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        alertDialog.show();
 
 
-    }*/
-
- /* boolean isHighlight = false;
-    TextHighlighter textHighlighter;*/
+       // }
+    }
 
 
 
 
 
-}
+
 
 
 
