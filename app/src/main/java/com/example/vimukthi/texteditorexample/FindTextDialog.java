@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -29,6 +30,7 @@ public class FindTextDialog {
     MultiAutoCompleteTextView edtTextView;
     Context context;
     String subString;
+    TextWatcher tt=null;
 
     public FindTextDialog(Context context1) {
         this.context =context1;
@@ -79,22 +81,10 @@ public class FindTextDialog {
 
     return true;
     }
+    SpannableString ss;
+    Matcher matcher;
     public boolean textHihjlight() {
-        edtTextView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-
-            @Override
-            public void afterTextChanged(Editable editable)   {
-
-        }
 
    /*     String mainString = edtTextView.getText().toString();
 
@@ -113,21 +103,19 @@ public class FindTextDialog {
             }
 
 }
-        }*/});
+        }*/
 
             String text=edtTextView.getText().toString();
-            SpannableString ss =new SpannableString(text);
+            ss =new SpannableString(text);
             String textToSearch=subString;
             Pattern pattern=Pattern.compile(textToSearch);
-            Matcher matcher=pattern.matcher(ss);
-                while (matcher.find())
+            matcher=pattern.matcher(ss);
+            while (matcher.find())
             {
-
                 ss.setSpan(new ForegroundColorSpan(Color.RED),matcher.start(),matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
                 edtTextView.setText(ss);
-
-
+                ss=null;
 
 
         return true;

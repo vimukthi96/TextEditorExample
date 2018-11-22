@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -56,7 +57,7 @@ public class NewFileActivity extends AppCompatActivity {
     Context context;
     MenuItem save_btn;
 
-
+    TextWatcher tt = null;
 
 
     @Override
@@ -74,7 +75,30 @@ public class NewFileActivity extends AppCompatActivity {
         findTextDialog=new FindTextDialog(context);
         autoCompleteText =new AutoCompleteText(context);
 
-        edtTextView.addTextChangedListener(new TextWatcher() {
+        tt = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                edtTextView.removeTextChangedListener(tt);
+                // et.setText(et.getText().toString().replace(text, replace));
+               // edtTextView.setTextColor(Color.RED);
+                edtTextView.setTextColor(Color.BLACK);
+                // et.getCurrentTextColor();
+                edtTextView.addTextChangedListener(tt);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            //    edtTextView.setSelection(editable.length());
+
+            }
+        };
+        edtTextView.addTextChangedListener(tt);
+   /*     edtTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 //edtTextView.setHighlightColor(Color.RED);
@@ -86,6 +110,11 @@ public class NewFileActivity extends AppCompatActivity {
 
                 autoCompleteText.autoOnchange(edtTextView,txtnumberView);
                 textInType();
+                edtTextView.removeTextChangedListener(tt);
+                // et.setText(et.getText().toString().replace(text, replace));
+                edtTextView.setTextColor(Color.GREEN);
+                // et.getCurrentTextColor();
+                edtTextView.addTextChangedListener(tt);
 
             }
             @Override
@@ -94,7 +123,7 @@ public class NewFileActivity extends AppCompatActivity {
                // textAtNormal();
 
             }
-        });
+        });*/
 
 }
             public boolean textInType() {
@@ -149,7 +178,7 @@ public class NewFileActivity extends AppCompatActivity {
             /*    if(fileSaveDialog.saveAsDialog(edtTextView)==true){
                     save_btn.setVisible(true);
                 }*/
-               // textAtNormal();
+                textAtNormal();
 
                 return true;
             case R.id.action_save_btn:
@@ -185,7 +214,7 @@ public class NewFileActivity extends AppCompatActivity {
 
        // String subString=null;
 
-        String mainString = edtTextView.getText().toString();
+      /*  String mainString = edtTextView.getText().toString();
       //  int ofe = mainString.indexOf(mainString, 0);
         Spannable WordtoSpan = new SpannableString(mainString);
         //edtTextView.setHighlightColor(Color.RED);
@@ -195,14 +224,15 @@ public class NewFileActivity extends AppCompatActivity {
             ofe = mainString.indexOf(mainString, ofs);
             if (ofe == -1)
                 break;
-            else {*/
+            else {
 
                 WordtoSpan.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), mainString.indexOf(mainString, 0), mainString.indexOf(mainString, 0) + mainString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 edtTextView.setText(WordtoSpan, TextView.BufferType.SPANNABLE);
-            }
+                */
 
 
-       // }
+
+        }
     }
 
 
