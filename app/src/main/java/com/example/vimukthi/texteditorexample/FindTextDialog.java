@@ -104,7 +104,7 @@ public class FindTextDialog {
 
 }
         }*/
-
+Editable editable = edtTextView.getEditableText();
             String text=edtTextView.getText().toString();
             ss =new SpannableString(text);
             String textToSearch=subString;
@@ -112,9 +112,13 @@ public class FindTextDialog {
             matcher=pattern.matcher(ss);
             while (matcher.find())
             {
-                ss.setSpan(new ForegroundColorSpan(Color.RED),matcher.start(),matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                Editable ab = new SpannableStringBuilder(editable.toString().replace("g", "G"));
+                editable.replace(0, edtTextView.length(), ab);
             }
-                edtTextView.setText(ss);
+           //   ss.setSpan(new replace("gh","ghyu"),matcher.start(),matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE      );
+                //  ss.setSpan(new ForegroundColorSpan(Color.RED),matcher.start(),matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+           // }
+              //  edtTextView.setText(ss);
                 ss=null;
 
 
