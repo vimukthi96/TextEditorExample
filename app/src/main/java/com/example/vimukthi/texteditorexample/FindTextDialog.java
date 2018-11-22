@@ -16,6 +16,7 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +51,16 @@ public class FindTextDialog {
         View layout_find = layoutInflater.inflate(R.layout.dialog_find_text, null);
 
         final MaterialEditText edtTextSearch = layout_find.findViewById(R.id.txt_search);
+        final MaterialEditText edtTextReplace = layout_find.findViewById(R.id.txt_replace);
+        edtTextReplace.setVisibility(View.GONE);
+        final CheckBox checkBox=layout_find.findViewById(R.id.check_replace);
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                edtTextReplace.setVisibility(View.VISIBLE);
+            }
+        });
+
 
         alertDialog.setView(layout_find);
 
