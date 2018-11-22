@@ -5,10 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.MultiAutoCompleteTextView;
@@ -16,6 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FindTextDialog {
 
@@ -26,6 +33,8 @@ public class FindTextDialog {
     public FindTextDialog(Context context1) {
         this.context =context1;
     }
+
+
 
     public boolean showFindDialog(MultiAutoCompleteTextView editTextView) {
 
@@ -71,44 +80,24 @@ public class FindTextDialog {
     return true;
     }
     public boolean textHihjlight() {
-    /*    if(!isHighlight) {
-            textHighlighter= new TextHighlighter();
-            textHighlighter
-                    .setBackgroundColor(Color.parseColor("FFFF00"))
-                    .setForegroundColor(Color.RED)
-                    .addTarget(findViewById(R.id.edtTextView))
-                    .highlight("html", TextHighlighter.BASE_MATCHER);
+        edtTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        }
-        else{
-            textHighlighter.setBackgroundColor(Color.TRANSPARENT)
-                    .setForegroundColor(edtTextView.getCurrentTextColor())
-                    .invalidate( TextHighlighter.BASE_MATCHER);
-        }
-        isHighlight =! isHighlight;*/
-       /* String cv=edtTextView.getText().toString();
-        SpannableString ss=new SpannableString(cv);
-        BackgroundColorSpan backgroundColorSpan=new BackgroundColorSpan(Color.YELLOW);
-        ss.setSpan(backgroundColorSpan,0,5,SPAN_EXCLUSIVE_EXCLUSIVE);
-        edtTextView.setText(ss);*/
-        String mainString = edtTextView.getText().toString();
-     //   subString = text;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
 
-      /*  if(mainString.contains(subString)) {
-            int startIndex = mainString.indexOf(subString);
-            int endIndex = startIndex + subString.length();
-            SpannableString spannableString = new SpannableString(mainString);
-            spannableString.setSpan(new BackgroundColorSpan(Color.parseColor("#ffff00")), startIndex, endIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            edtTextView.setText(spannableString);
+            @Override
+            public void afterTextChanged(Editable editable)   {
+
         }
-   /*     String adam = "<font color=#FFFF00>"+subString+"</font>";
-      //  String str = "Na Adam ne ne yere Hawa: Na Adam xwoo xbabarima";
-        String newString = mainString.replaceAll(subString, adam);
-        edtTextView.setText(Html.fromHtml(newString));*/
-        //   String str = "Na Adam ne ne yere Hawa: Na Adam xwoo xbabarima";
-        //    String stringToColor = "Adam";
+
+   /*     String mainString = edtTextView.getText().toString();
+
         int ofe = mainString.indexOf(subString, 0);
         Spannable WordtoSpan = new SpannableString(mainString);
 
@@ -123,8 +112,23 @@ public class FindTextDialog {
                 edtTextView.setText(WordtoSpan, TextView.BufferType.SPANNABLE);
             }
 
+}
+        }*/});
 
-        }
+            String text=edtTextView.getText().toString();
+            SpannableString ss =new SpannableString(text);
+            String textToSearch=subString;
+            Pattern pattern=Pattern.compile(textToSearch);
+            Matcher matcher=pattern.matcher(ss);
+                while (matcher.find())
+            {
+
+                ss.setSpan(new ForegroundColorSpan(Color.RED),matcher.start(),matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+                edtTextView.setText(ss);
+
+
+
 
         return true;
     }

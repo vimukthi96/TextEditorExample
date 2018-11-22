@@ -96,26 +96,6 @@ public class NewFileActivity extends AppCompatActivity {
             }
         });
 
-        edtTextView.removeTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                edtTextView.setTextColor(Color.RED);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-
-
 }
             public boolean textInType() {
                 if (edtTextView.getText().length() == 0) {
