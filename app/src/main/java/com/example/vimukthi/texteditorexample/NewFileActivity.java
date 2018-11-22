@@ -75,30 +75,7 @@ public class NewFileActivity extends AppCompatActivity {
         findTextDialog=new FindTextDialog(context);
         autoCompleteText =new AutoCompleteText(context);
 
-        tt = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                edtTextView.removeTextChangedListener(tt);
-                // et.setText(et.getText().toString().replace(text, replace));
-               // edtTextView.setTextColor(Color.RED);
-                edtTextView.setTextColor(Color.BLACK);
-                // et.getCurrentTextColor();
-                edtTextView.addTextChangedListener(tt);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            //    edtTextView.setSelection(editable.length());
-
-            }
-        };
-        edtTextView.addTextChangedListener(tt);
-   /*     edtTextView.addTextChangedListener(new TextWatcher() {
+        edtTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 //edtTextView.setHighlightColor(Color.RED);
@@ -110,11 +87,11 @@ public class NewFileActivity extends AppCompatActivity {
 
                 autoCompleteText.autoOnchange(edtTextView,txtnumberView);
                 textInType();
-                edtTextView.removeTextChangedListener(tt);
-                // et.setText(et.getText().toString().replace(text, replace));
-                edtTextView.setTextColor(Color.GREEN);
+           /*     edtTextView.removeTextChangedListener(tt);
+            //    edtTextView.setText(edtTextView.getText().toString().replace("g", "gh"));
+          //      edtTextView.setTextColor(Color.GREEN);
                 // et.getCurrentTextColor();
-                edtTextView.addTextChangedListener(tt);
+                edtTextView.addTextChangedListener(tt);*/
 
             }
             @Override
@@ -123,7 +100,7 @@ public class NewFileActivity extends AppCompatActivity {
                // textAtNormal();
 
             }
-        });*/
+        });
 
 }
             public boolean textInType() {

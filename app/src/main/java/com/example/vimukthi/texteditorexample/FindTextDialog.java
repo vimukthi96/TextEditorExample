@@ -30,7 +30,8 @@ public class FindTextDialog {
     MultiAutoCompleteTextView edtTextView;
     Context context;
     String subString;
-    TextWatcher tt=null;
+    SpannableString ss;
+    Matcher matcher;
 
     public FindTextDialog(Context context1) {
         this.context =context1;
@@ -81,8 +82,7 @@ public class FindTextDialog {
 
     return true;
     }
-    SpannableString ss;
-    Matcher matcher;
+
     public boolean textHihjlight() {
 
 
