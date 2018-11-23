@@ -20,27 +20,9 @@ import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.rengwuxian.materialedittext.MaterialEditText;
-import com.xeoh.android.texthighlighter.TextHighlighter;
-
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Watchable;
-
-import dmax.dialog.SpotsDialog;
-
 
 public class NewFileActivity extends AppCompatActivity {
 
@@ -50,7 +32,6 @@ public class NewFileActivity extends AppCompatActivity {
     TextViewUndoRedo helper;
     Menu menu;
     MenuItem undo_btn;
-    //boolean b = false;
     MenuItem redo_btn;
     FileSaveDialog fileSaveDialog;
     FindTextDialog findTextDialog;
@@ -58,8 +39,6 @@ public class NewFileActivity extends AppCompatActivity {
     Context context;
     MenuItem save_btn;
 
-    TextWatcher tt = null;
-    Action action;
 
 
     @Override
@@ -76,14 +55,10 @@ public class NewFileActivity extends AppCompatActivity {
         fileSaveDialog = new FileSaveDialog(context);
         findTextDialog=new FindTextDialog(context);
         autoCompleteText =new AutoCompleteText(context);
-       // action =new Action(context);
-
 
         edtTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                //edtTextView.setHighlightColor(Color.RED);
-
             }
 
             @Override
@@ -154,23 +129,17 @@ public class NewFileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save_as_btn:
-             //   Toast.makeText(this, "hehdejd jehfgehkd", Toast.LENGTH_SHORT).show();
-                //saveAsDialog();
-            /*    if(fileSaveDialog.saveAsDialog(edtTextView)==true){
-                    save_btn.setVisible(true);
-                }*/
-                textAtNormal();
-
+                if(fileSaveDialog.saveAsDialog(edtTextView,save_btn)==true){
+                 //   save_btn.setVisible(true);
+                }
                 return true;
+
             case R.id.action_save_btn:
-
                 fileSaveDialog.saveDialog(edtTextView);
-               // textAtNormals();
-
                 return true;
+
             case R.id.action_undo_btn:
                 if (textInType() == true) {
-
                     performUndo();
                 }
                 redo_btn.setVisible(true);
@@ -189,32 +158,6 @@ public class NewFileActivity extends AppCompatActivity {
     }
 
 
-    public void textAtNormal() {
-       // wacher =context;
-
-        //edtTextView.setColo(Color.RED);
-
-       // String subString=null;
-
-      /*  String mainString = edtTextView.getText().toString();
-      //  int ofe = mainString.indexOf(mainString, 0);
-        Spannable WordtoSpan = new SpannableString(mainString);
-        //edtTextView.setHighlightColor(Color.RED);
-     /*   for (int ofs = 0; ofs < mainString.length() && ofe != -1; ofs = ofe + 1) {
-
-
-            ofe = mainString.indexOf(mainString, ofs);
-            if (ofe == -1)
-                break;
-            else {
-
-                WordtoSpan.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), mainString.indexOf(mainString, 0), mainString.indexOf(mainString, 0) + mainString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                edtTextView.setText(WordtoSpan, TextView.BufferType.SPANNABLE);
-                */
-
-
-
-        }
     }
 
 
