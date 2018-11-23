@@ -163,7 +163,7 @@ public class FindTextDialog {
 
         } else {
             while (matcher.find()) {
-                ss.setSpan(new ForegroundColorSpan(Color.RED), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ss.setSpan(new BackgroundColorSpan(Color.YELLOW), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 mActionMode=((Activity)context).startActionMode(new Action(context,edtTextView));
             }
             edtTextView.setText(ss);
