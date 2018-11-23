@@ -24,17 +24,18 @@
             app:met_baseColor="@color/colorPrimary"
             app:met_singleLineEllipsis="true"
             app:met_floatingLabel="highlight"
-            app:met_primaryColor="@color/colorPrimary"
-            />
+            app:met_primaryColor="@color/colorPrimary" />
+
         <android.support.v7.widget.AppCompatCheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/check_replace"
             android:text="Replace"/>
+
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/txt_replace"
             android:hint="Replace Text"
-            android:inputType="textPassword"
+            android:inputType="text"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorPrimary"
             android:textSize="20sp"
@@ -43,8 +44,7 @@
             app:met_baseColor="@color/colorPrimary"
             app:met_singleLineEllipsis="true"
             app:met_floatingLabel="highlight"
-            app:met_primaryColor="@color/colorPrimary"
-            />
+            app:met_primaryColor="@color/colorPrimary" />
 
     </LinearLayout>
 

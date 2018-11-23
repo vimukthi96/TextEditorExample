@@ -17,6 +17,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class FindTextDialog {
     MultiAutoCompleteTextView edtTextView;
     Context context;
     String subString;
+    String replaceWord=null;
     SpannableString ss;
     Matcher matcher;
 
@@ -54,11 +56,17 @@ public class FindTextDialog {
         final MaterialEditText edtTextReplace = layout_find.findViewById(R.id.txt_replace);
         edtTextReplace.setVisibility(View.GONE);
         final CheckBox checkBox=layout_find.findViewById(R.id.check_replace);
-        checkBox.setOnClickListener(new View.OnClickListener() {
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                edtTextReplace.setVisibility(View.VISIBLE);
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b == true) {
+                    edtTextReplace.setVisibility(View.VISIBLE);
+                }
+                else{
+                    edtTextReplace.setVisibility(View.GONE);
+                }
             }
+
         });
 
 
@@ -76,9 +84,20 @@ public class FindTextDialog {
                    // Snackbar.make(relativeLayout,"find text field is empty or space",Snackbar.LENGTH_SHORT).show();
                     return;
                 }
+                if(edtTextReplace.getVisibility()==View.VISIBLE){
+                    if (TextUtils.isEmpty(edtTextReplace.getText())) {
+                        Toast.makeText(context,"TExt field is empty", Toast.LENGTH_SHORT).show();
+                        // Snackbar.make(relativeLayout,"find text field is empty or space",Snackbar.LENGTH_SHORT).show();
+                        return;
+                    }
+                    replaceWord =edtTextReplace.getText().toString();
+                    Toast.makeText(context,replaceWord, Toast.LENGTH_SHORT).show();
+                }
 
               //  textHihjlight(edtTextSearch.getText().toString());
                 subString = edtTextSearch.getText().toString();
+
+
                 textHihjlight();
             }
         });
@@ -115,22 +134,23 @@ public class FindTextDialog {
 
 }
         }*/
-Editable editable = edtTextView.getEditableText();
+            Editable editable = edtTextView.getEditableText();
             String text=edtTextView.getText().toString();
             ss =new SpannableString(text);
             String textToSearch=subString;
             Pattern pattern=Pattern.compile(textToSearch);
             matcher=pattern.matcher(ss);
-            while (matcher.find())
-            {
-                Editable ab = new SpannableStringBuilder(editable.toString().replace("g", "G"));
-                editable.replace(0, edtTextView.length(), ab);
+            if(replaceWord!=null) {
+                while (matcher.find()) {
+                    Editable ab = new SpannableStringBuilder(editable.toString().replace(subString, replaceWord));
+                    editable.replace(0, edtTextView.length(), ab);
+                }
             }
            //   ss.setSpan(new replace("gh","ghyu"),matcher.start(),matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE      );
-                //  ss.setSpan(new ForegroundColorSpan(Color.RED),matcher.start(),matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-           // }
-              //  edtTextView.setText(ss);
-                ss=null;
+           /* {  ss.setSpan(new ForegroundColorSpan(Color.RED),matcher.start(),matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+                edtTextView.setText(ss);
+                ss=null;*/
 
 
         return true;
