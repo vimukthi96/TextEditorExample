@@ -34,7 +34,7 @@ public class FindTextDialog {
     MultiAutoCompleteTextView edtTextView;
     Context context;
     String subString;
-    String replaceWord = null;
+    String replaceWord;
     SpannableString ss;
     Matcher matcher;
     ActionMode mActionMode;
@@ -109,9 +109,10 @@ public class FindTextDialog {
                 }
                 else{
                 textHihjlight();
+               // replaceWord="";
                    // action=new Action(context);
                   //  action.removeHighlight(edtTextView);
-                mActionMode=((Activity)context).startActionMode(new Action(context,edtTextView));
+
                 }
 
             }
@@ -156,17 +157,17 @@ public class FindTextDialog {
         Pattern pattern = Pattern.compile(textToSearch);
         matcher = pattern.matcher(ss);
         if (replaceWord != null) {
-            while (matcher.find()) {
                 Editable ab = new SpannableStringBuilder(editable.toString().replace(subString, replaceWord));
                 editable.replace(0, edtTextView.length(), ab);
-            }
+                replaceWord=null;
 
         } else {
             while (matcher.find()) {
                 ss.setSpan(new ForegroundColorSpan(Color.RED), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                mActionMode=((Activity)context).startActionMode(new Action(context,edtTextView));
             }
             edtTextView.setText(ss);
-            
+
         }
             return true;
         }
