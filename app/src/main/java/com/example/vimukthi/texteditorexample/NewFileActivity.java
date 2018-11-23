@@ -16,6 +16,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,6 +59,7 @@ public class NewFileActivity extends AppCompatActivity {
     MenuItem save_btn;
 
     TextWatcher tt = null;
+    Action action;
 
 
     @Override
@@ -74,6 +76,8 @@ public class NewFileActivity extends AppCompatActivity {
         fileSaveDialog = new FileSaveDialog(context);
         findTextDialog=new FindTextDialog(context);
         autoCompleteText =new AutoCompleteText(context);
+       // action =new Action(context);
+
 
         edtTextView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -178,6 +182,7 @@ public class NewFileActivity extends AppCompatActivity {
 
             case R.id.action_find_btn:
                 findTextDialog.showFindDialog(edtTextView);
+
                 return true;
         }
         return super.onOptionsItemSelected(item);

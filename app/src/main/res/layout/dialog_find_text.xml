@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/check_replace"
-            android:text="Replace"/>
+            android:text="Replace all"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/txt_replace"

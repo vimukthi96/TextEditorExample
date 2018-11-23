@@ -1,5 +1,6 @@
 package com.example.vimukthi.texteditorexample;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +15,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -32,19 +34,22 @@ public class FindTextDialog {
     MultiAutoCompleteTextView edtTextView;
     Context context;
     String subString;
-    String replaceWord=null;
+    String replaceWord = null;
     SpannableString ss;
     Matcher matcher;
+    ActionMode mActionMode;
+    Action action;
+
+
 
     public FindTextDialog(Context context1) {
-        this.context =context1;
+        this.context = context1;
     }
 
 
+    public boolean showFindDialog(final MultiAutoCompleteTextView editTextView) {
 
-    public boolean showFindDialog(MultiAutoCompleteTextView editTextView) {
-
-        edtTextView =editTextView;
+        edtTextView = editTextView;
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
         alertDialog.setTitle("Find");
 
@@ -55,14 +60,13 @@ public class FindTextDialog {
         final MaterialEditText edtTextSearch = layout_find.findViewById(R.id.txt_search);
         final MaterialEditText edtTextReplace = layout_find.findViewById(R.id.txt_replace);
         edtTextReplace.setVisibility(View.GONE);
-        final CheckBox checkBox=layout_find.findViewById(R.id.check_replace);
+        final CheckBox checkBox = layout_find.findViewById(R.id.check_replace);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b == true) {
                     edtTextReplace.setVisibility(View.VISIBLE);
-                }
-                else{
+                } else {
                     edtTextReplace.setVisibility(View.GONE);
                 }
             }
@@ -80,25 +84,36 @@ public class FindTextDialog {
 
 
                 if (TextUtils.isEmpty(edtTextSearch.getText())) {
-                     Toast.makeText(context,"TExt field is empty", Toast.LENGTH_SHORT).show();
-                   // Snackbar.make(relativeLayout,"find text field is empty or space",Snackbar.LENGTH_SHORT).show();
+                    Toast.makeText(context, "TExt field is empty", Toast.LENGTH_SHORT).show();
+                    // Snackbar.make(relativeLayout,"find text field is empty or space",Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                if(edtTextReplace.getVisibility()==View.VISIBLE){
+
+                if (edtTextReplace.getVisibility() == View.VISIBLE) {
                     if (TextUtils.isEmpty(edtTextReplace.getText())) {
-                        Toast.makeText(context,"TExt field is empty", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "TExt field is empty", Toast.LENGTH_SHORT).show();
                         // Snackbar.make(relativeLayout,"find text field is empty or space",Snackbar.LENGTH_SHORT).show();
                         return;
                     }
-                    replaceWord =edtTextReplace.getText().toString();
-                    Toast.makeText(context,replaceWord, Toast.LENGTH_SHORT).show();
+                    replaceWord = edtTextReplace.getText().toString();
+                    Toast.makeText(context, replaceWord, Toast.LENGTH_SHORT).show();
                 }
 
-              //  textHihjlight(edtTextSearch.getText().toString());
+                //  textHihjlight(edtTextSearch.getText().toString());
                 subString = edtTextSearch.getText().toString();
 
-
+                if (edtTextSearch.getText().toString().equals(" ")) {
+                    Toast.makeText(context, "you add text as space. it's not valid for this", Toast.LENGTH_SHORT).show();
+                    // Snackbar.make(relativeLayout,"find text field is empty or space",Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+                else{
                 textHihjlight();
+                   // action=new Action(context);
+                  //  action.removeHighlight(edtTextView);
+                mActionMode=((Activity)context).startActionMode(new Action(context,edtTextView));
+                }
+
             }
         });
         alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -110,7 +125,7 @@ public class FindTextDialog {
 
         alertDialog.show();
 
-    return true;
+        return true;
     }
 
     public boolean textHihjlight() {
@@ -134,28 +149,31 @@ public class FindTextDialog {
 
 }
         }*/
-            Editable editable = edtTextView.getEditableText();
-            String text=edtTextView.getText().toString();
-            ss =new SpannableString(text);
-            String textToSearch=subString;
-            Pattern pattern=Pattern.compile(textToSearch);
-            matcher=pattern.matcher(ss);
-            if(replaceWord!=null) {
-                while (matcher.find()) {
-                    Editable ab = new SpannableStringBuilder(editable.toString().replace(subString, replaceWord));
-                    editable.replace(0, edtTextView.length(), ab);
-                }
+        Editable editable = edtTextView.getEditableText();
+        String text = edtTextView.getText().toString();
+        ss = new SpannableString(text);
+        String textToSearch = subString;
+        Pattern pattern = Pattern.compile(textToSearch);
+        matcher = pattern.matcher(ss);
+        if (replaceWord != null) {
+            while (matcher.find()) {
+                Editable ab = new SpannableStringBuilder(editable.toString().replace(subString, replaceWord));
+                editable.replace(0, edtTextView.length(), ab);
             }
-           //   ss.setSpan(new replace("gh","ghyu"),matcher.start(),matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE      );
-           /* {  ss.setSpan(new ForegroundColorSpan(Color.RED),matcher.start(),matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        } else {
+            while (matcher.find()) {
+                ss.setSpan(new ForegroundColorSpan(Color.RED), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-                edtTextView.setText(ss);
-                ss=null;*/
+            edtTextView.setText(ss);
+            
+        }
+            return true;
+        }
 
-
-        return true;
     }
 
 
 
-}
+
+
