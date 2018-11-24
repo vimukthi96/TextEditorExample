@@ -151,7 +151,6 @@ public class NewFileActivity extends AppCompatActivity {
 
             case R.id.action_find_btn:
                 findTextDialog.showFindDialog(edtTextView);
-
                 return true;
         }
         return super.onOptionsItemSelected(item);
