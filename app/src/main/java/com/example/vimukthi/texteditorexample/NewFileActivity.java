@@ -16,6 +16,8 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.BackgroundColorSpan;
+import android.text.style.CharacterStyle;
+import android.text.style.ForegroundColorSpan;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +25,9 @@ import android.view.MenuItem;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NewFileActivity extends AppCompatActivity {
 
@@ -38,8 +43,8 @@ public class NewFileActivity extends AppCompatActivity {
     AutoCompleteText autoCompleteText;
     Context context;
     MenuItem save_btn;
-
-
+    AutoHighlighterText autoHighlighterText;
+StringBuilder regex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +60,45 @@ public class NewFileActivity extends AppCompatActivity {
         fileSaveDialog = new FileSaveDialog(context);
         findTextDialog=new FindTextDialog(context);
         autoCompleteText =new AutoCompleteText(context);
-
+        autoHighlighterText=new AutoHighlighterText(context);
+        //regex=autoHighlighterText.findext();
+        final String[] html = context.getResources().getStringArray(R.array.html);
+        regex = new StringBuilder("\\b(");
+        for (String word : html) {
+            regex.append(Pattern.quote(word));
+            regex.append("|");
+        }
+        regex.setLength(regex.length() - 1); // delete last added "|"
+        regex.append(")\\b");
         edtTextView.addTextChangedListener(new TextWatcher() {
+            ColorScheme keywords = new ColorScheme(
+
+                    Pattern.compile(regex.toString()),
+                    Color.CYAN
+            );
+
+            ColorScheme numbers = new ColorScheme(
+                    Pattern.compile("(\\b(\\d*[.]?\\d+)\\b)"),
+                    Color.BLUE
+            );
+
+            final ColorScheme[] schemes = {keywords, numbers};
+            void removeSpans(Editable e, Class<? extends CharacterStyle> type) {
+                CharacterStyle[] spans = e.getSpans(0, e.length(), type);
+                for (CharacterStyle span : spans) {
+                    e.removeSpan(span);
+                }
+            }
+
+            class ColorScheme {
+                final Pattern pattern;
+                final int color;
+
+                ColorScheme(Pattern pattern, int color) {
+                    this.pattern = pattern;
+                    this.color = color;
+                }
+            }
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
@@ -66,18 +108,20 @@ public class NewFileActivity extends AppCompatActivity {
 
                 autoCompleteText.autoOnchange(edtTextView,txtnumberView);
                 textInType();
-           /*     edtTextView.removeTextChangedListener(tt);
-            //    edtTextView.setText(edtTextView.getText().toString().replace("g", "gh"));
-          //      edtTextView.setTextColor(Color.GREEN);
-                // et.getCurrentTextColor();
-                edtTextView.addTextChangedListener(tt);*/
+
 
             }
             @Override
             public void afterTextChanged(Editable editable) {
-                //edtTextView.setHighlightColor(Color.RED);
-               // textAtNormal();
-
+                removeSpans(editable, ForegroundColorSpan.class);
+                for (ColorScheme scheme : schemes) {
+                    for (Matcher m = scheme.pattern.matcher(editable); m.find(); ) {
+                        editable.setSpan(new ForegroundColorSpan(scheme.color),
+                                m.start(),
+                                m.end(),
+                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
+                }
             }
         });
 

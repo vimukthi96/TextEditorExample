@@ -39,14 +39,7 @@ public class AutoCompleteText {
         }
         txtnumberView.setText(lineText);
         String[] html = context.getResources().getStringArray(R.array.html);
-      //  AlertDialog.Builder alertDailog=new AlertDialog.Builder(context);
-       // LayoutInflater inflater=(LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-      //  View row =inflater.inflate(R.layout.row_item,null);
-      //  ListView listView=(ListView)row.findViewById(R.id.listView);
 
-       // alertDailog.setView(row);
-        //AlertDialog dialog=alertDailog.create();
-       // dialog.show();
         adapter = new ArrayAdapter<String>(context, android.R.layout.select_dialog_item, html);
       //  adapter.getPosition();
       //    adapter.getPosition(Cursor cursor);
@@ -58,7 +51,7 @@ public class AutoCompleteText {
             public int findTokenStart(CharSequence charSequence, int cursor) {
                 int i = cursor;
 
-                while (i > 0 && charSequence.charAt(i - 1) != '<') {
+                while (i >3 && charSequence.charAt(i - 1) != '<') {
                     i--;
                 }
                 while (i < cursor && charSequence.charAt(i) == '<') {
@@ -96,7 +89,7 @@ public class AutoCompleteText {
                     return charSequence;
                 } else {
                     if (charSequence instanceof Spanned) {
-                        SpannableString sp = new SpannableString(charSequence + " ");
+                        SpannableString sp = new SpannableString(charSequence + "");
                         TextUtils.copySpansFrom((Spanned) charSequence, 0, charSequence.length(),
                                 Object.class, sp, 0);
                         return sp;
