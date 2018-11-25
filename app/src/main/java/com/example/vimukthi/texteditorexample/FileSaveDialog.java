@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -80,6 +81,10 @@ public class FileSaveDialog {
                 FileName = edtTextName.getText().toString();
                 FilePath = edtFolderPath.getText().toString();
                 FileBody = editTextView.getText().toString();
+                String parts[]=FileName.split("\\.");
+                String dataType=parts[1];
+
+                Common.currentDataType=dataType;
 
                 createPDF(FileName,FilePath,FileBody);
                 saveBtn.setVisible(true);
@@ -153,7 +158,7 @@ public class FileSaveDialog {
             outputStream = new FileOutputStream(file);
             outputStream.write(body.getBytes());
             outputStream.close();
-            Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Saved" , Toast.LENGTH_SHORT).show();
             //  return true;
         }
         catch (FileNotFoundException e) {
