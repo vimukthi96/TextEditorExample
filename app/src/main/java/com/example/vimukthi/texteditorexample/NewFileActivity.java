@@ -43,7 +43,7 @@ public class NewFileActivity extends AppCompatActivity {
     AutoCompleteText autoCompleteText;
     Context context;
     MenuItem save_btn;
-    AutoHighlighterText autoHighlighterText;
+
 StringBuilder regex;
 
     @Override
@@ -60,7 +60,6 @@ StringBuilder regex;
         fileSaveDialog = new FileSaveDialog(context);
         findTextDialog=new FindTextDialog(context);
         autoCompleteText =new AutoCompleteText(context);
-        autoHighlighterText=new AutoHighlighterText(context);
         //regex=autoHighlighterText.findext();
         final String[] html = context.getResources().getStringArray(R.array.html);
         regex = new StringBuilder("\\b(");
