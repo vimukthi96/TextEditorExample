@@ -23,6 +23,8 @@ public class AutoCompleteText {
     ArrayAdapter<String> adapter;
     ListView listView ;
     String[] dataType;
+    Cursor cursor;
+
     public AutoCompleteText(Context context) {
         this.context = context;
     }
@@ -46,6 +48,7 @@ public class AutoCompleteText {
       //  adapter.getPosition();
       //    adapter.getPosition(Cursor cursor);
       //  edtTextView.setAdapter(new CustomAdapter(context));
+
         edtTextView.setAdapter(adapter);
         edtTextView.setThreshold(2);
         edtTextView.setTokenizer(new MultiAutoCompleteTextView.Tokenizer() {
