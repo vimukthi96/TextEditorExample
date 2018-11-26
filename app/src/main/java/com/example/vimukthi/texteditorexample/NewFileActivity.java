@@ -43,8 +43,9 @@ public class NewFileActivity extends AppCompatActivity {
     AutoCompleteText autoCompleteText;
     Context context;
     MenuItem save_btn;
+    String[] dataType;
 
-StringBuilder regex;
+    StringBuilder regex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +62,11 @@ StringBuilder regex;
         findTextDialog=new FindTextDialog(context);
         autoCompleteText =new AutoCompleteText(context);
         //regex=autoHighlighterText.findext();
-        final String[] html = context.getResources().getStringArray(R.array.html);
+        if(Common.currentDataType.equals("html")||Common.currentDataType.equals("htm")){
+            dataType = context.getResources().getStringArray(R.array.html);
+        }
         regex = new StringBuilder("\\b(");
-        for (String word : html) {
+        for (String word : dataType) {
             regex.append(Pattern.quote(word));
             regex.append("|");
         }

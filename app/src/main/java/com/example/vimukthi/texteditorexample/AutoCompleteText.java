@@ -22,6 +22,7 @@ public class AutoCompleteText {
     TextView txtnumberView;
     ArrayAdapter<String> adapter;
     ListView listView ;
+    String[] dataType;
     public AutoCompleteText(Context context) {
         this.context = context;
     }
@@ -38,9 +39,10 @@ public class AutoCompleteText {
 
         }
         txtnumberView.setText(lineText);
-        String[] html = context.getResources().getStringArray(R.array.html);
+        if(Common.currentDataType.equals("html")||Common.currentDataType.equals("htm")){
+            dataType= context.getResources().getStringArray(R.array.html);}
 
-        adapter = new ArrayAdapter<String>(context, android.R.layout.select_dialog_item, html);
+        adapter = new ArrayAdapter<String>(context, android.R.layout.select_dialog_item, dataType);
       //  adapter.getPosition();
       //    adapter.getPosition(Cursor cursor);
       //  edtTextView.setAdapter(new CustomAdapter(context));
@@ -51,7 +53,7 @@ public class AutoCompleteText {
             public int findTokenStart(CharSequence charSequence, int cursor) {
                 int i = cursor;
 
-                while (i >3 && charSequence.charAt(i - 1) != '<') {
+                while (i >0 && charSequence.charAt(i - 1) != '<') {
                     i--;
                 }
                 while (i < cursor && charSequence.charAt(i) == '<') {
@@ -67,7 +69,7 @@ public class AutoCompleteText {
                 int len = charSequence.length();
 
                 while (i < len) {
-                    if (charSequence.charAt(i) == ' ') {
+                    if (charSequence.charAt(i) == '<') {
                         return i;
                     } else {
                         i++;
