@@ -1,30 +1,21 @@
 package com.example.vimukthi.texteditorexample;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
-import android.os.Environment;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
-import android.view.ActionMode;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,7 +36,7 @@ public class NewFileActivity extends AppCompatActivity {
     MenuItem save_btn;
     String[] dataType;
     StringBuilder regex;
-
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,82 +45,95 @@ public class NewFileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_file);
 
         txtnumberView = (TextView) findViewById(R.id.numberViewText);
-        edtTextView = (MultiAutoCompleteTextView ) findViewById(R.id.edtTextView);
-        relativeLayout=(RelativeLayout)findViewById(R.id.layout_root);
+        edtTextView = (MultiAutoCompleteTextView) findViewById(R.id.edtTextView);
+        relativeLayout = (RelativeLayout) findViewById(R.id.layout_root);
         helper = new TextViewUndoRedo(edtTextView);
-        context=NewFileActivity.this;
-        findTextDialog=new FindTextDialog(context);
-        autoCompleteText =new AutoCompleteText(context);
+        context = NewFileActivity.this;
+        fileSaveDialog = new FileSaveDialog(context);
+        findTextDialog = new FindTextDialog(context);
+        autoCompleteText = new AutoCompleteText(context);
         //regex=autoHighlighterText.findext();
-            dataType = getResources().getStringArray(R.array.html);
-            regex = new StringBuilder("\\b(");
-            for (String word : dataType) {
-                regex.append(Pattern.quote(word));
-                regex.append("|");
+        type=fileSaveDialog.currentDataType;
+
+        switch (type) {
+            case "html":
+                dataType = getResources().getStringArray(R.array.html);
+                break;
+            case "txt":
+                dataType = getResources().getStringArray(R.array.txt);
+                break;
+
+
+        }
+        regex = new StringBuilder("\\b(");
+        for (String word : dataType) {
+            regex.append(Pattern.quote(word));
+            regex.append("|");
+        }
+        regex.setLength(regex.length() - 1); // delete last added "|"
+        regex.append(")\\b");
+        edtTextView.addTextChangedListener(new TextWatcher() {
+            ColorScheme keywords = new ColorScheme(
+
+                    Pattern.compile(regex.toString()),
+                    Color.CYAN
+            );
+
+            ColorScheme numbers = new ColorScheme(
+                    Pattern.compile("(\\b(\\d*[.]?\\d+)\\b)"),
+                    Color.BLUE
+            );
+
+            final ColorScheme[] schemes = {keywords, numbers};
+
+            void removeSpans(Editable e, Class<? extends CharacterStyle> type) {
+                CharacterStyle[] spans = e.getSpans(0, e.length(), type);
+                for (CharacterStyle span : spans) {
+                    e.removeSpan(span);
+                }
             }
-            regex.setLength(regex.length() - 1); // delete last added "|"
-            regex.append(")\\b");
-            edtTextView.addTextChangedListener(new TextWatcher() {
-                ColorScheme keywords = new ColorScheme(
 
-                        Pattern.compile(regex.toString()),
-                        Color.CYAN
-                );
+            class ColorScheme {
+                final Pattern pattern;
+                final int color;
 
-                ColorScheme numbers = new ColorScheme(
-                        Pattern.compile("(\\b(\\d*[.]?\\d+)\\b)"),
-                        Color.BLUE
-                );
+                ColorScheme(Pattern pattern, int color) {
+                    this.pattern = pattern;
+                    this.color = color;
+                }
+            }
 
-                final ColorScheme[] schemes = {keywords, numbers};
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
-                void removeSpans(Editable e, Class<? extends CharacterStyle> type) {
-                    CharacterStyle[] spans = e.getSpans(0, e.length(), type);
-                    for (CharacterStyle span : spans) {
-                        e.removeSpan(span);
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                autoCompleteText.autoOnchange(edtTextView, txtnumberView);
+                autoCompleteText.autoComplete();
+                textInType();
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                removeSpans(editable, ForegroundColorSpan.class);
+                for (ColorScheme scheme : schemes) {
+                    for (Matcher m = scheme.pattern.matcher(editable); m.find(); ) {
+                        editable.setSpan(new ForegroundColorSpan(scheme.color),
+                                m.start(),
+                                m.end(),
+                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     }
                 }
+            }
 
-                class ColorScheme {
-                    final Pattern pattern;
-                    final int color;
-
-                    ColorScheme(Pattern pattern, int color) {
-                        this.pattern = pattern;
-                        this.color = color;
-                    }
-                }
-
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    autoCompleteText.autoOnchange(edtTextView, txtnumberView);
-                    textInType();
+        });
 
 
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
-                    removeSpans(editable, ForegroundColorSpan.class);
-                    for (ColorScheme scheme : schemes) {
-                        for (Matcher m = scheme.pattern.matcher(editable); m.find(); ) {
-                            editable.setSpan(new ForegroundColorSpan(scheme.color),
-                                    m.start(),
-                                    m.end(),
-                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
-                    }
-                }
-
-            });
-
-
-}
+    }
 
 
 
@@ -180,7 +184,7 @@ public class NewFileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save_as_btn:
-                if(fileSaveDialog.saveAsDialog()==true){
+                if(fileSaveDialog.saveAsDialog(edtTextView,save_btn)==true){
                  //   save_btn.setVisible(true);
                 }
                 return true;
@@ -201,7 +205,8 @@ public class NewFileActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_find_btn:
-                findTextDialog.showFindDialog(edtTextView);
+              //  findTextDialog.showFindDialog(edtTextView);
+                Toast.makeText(NewFileActivity.this,type,Toast.LENGTH_LONG).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);

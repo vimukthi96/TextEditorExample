@@ -32,15 +32,16 @@ public class FileSaveDialog {
 
 
     Context context;
+    public String currentDataType=Common.currentDataType;
+
     public FileSaveDialog(Context con) {
         this.context =con;
 
     }
 
-    public boolean saveAsDialog(){
-            //MultiAutoCompleteTextView edtTextView, MenuItem save) {
-       // editTextView =edtTextView;
-        //saveBtn=save;
+    public boolean saveAsDialog(MultiAutoCompleteTextView edtTextView, MenuItem save) {
+        editTextView =edtTextView;
+        saveBtn=save;
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
         alertDialog.setTitle("Save As");
 
@@ -85,10 +86,10 @@ public class FileSaveDialog {
                 String parts[]=FileName.split("\\.");
                 String dataType=parts[1];
 
-                Common.currentDataType=dataType;
+                currentDataType=dataType;
 
                 createPDF(FileName,FilePath,FileBody);
-           //     saveBtn.setVisible(true);
+                saveBtn.setVisible(true);
                 //  saveDialog(edtTextName.getText().toString(),edtFolderPath.getText().toString());
             }
         });

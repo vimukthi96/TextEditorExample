@@ -44,11 +44,17 @@ public class AutoCompleteText {
         txtnumberView.setText(lineText);
        // abc();
         }
-    public void  abc() {
-        if (Common.currentDataType == "html") {
+    public void  autoComplete() {
+        switch (Common.currentDataType){
+            case "html":
+                dataType = context.getResources().getStringArray(R.array.html);
+                break;
+            case "txt":
+                dataType = context.getResources().getStringArray(R.array.txt);
+                break;
 
-            dataType = context.getResources().getStringArray(R.array.html);
 
+        }
             adapter = new ArrayAdapter<String>(context, android.R.layout.select_dialog_item, dataType);
 
 
@@ -57,14 +63,30 @@ public class AutoCompleteText {
             edtTextView.setTokenizer(new MultiAutoCompleteTextView.Tokenizer() {
                 @Override
                 public int findTokenStart(CharSequence charSequence, int cursor) {
+
                     int i = cursor;
 
-                    while (i > 0 && charSequence.charAt(i - 1) != '<') {
-                        i--;
+                    switch (Common.currentDataType){
+                        case "html":
+                            while (i > 0 && charSequence.charAt(i - 1) != '<') {
+                                i--;
+                            }
+                            while (i < cursor && charSequence.charAt(i) == '<') {
+                                i++;
+                            }
+                            break;
+                        case "txt":
+                            while (i > 0 && charSequence.charAt(i - 1) != ' ') {
+                                i--;
+                            }
+                            while (i < cursor && charSequence.charAt(i) == ' ') {
+                                i++;
+                            }
+                            break;
+
+
                     }
-                    while (i < cursor && charSequence.charAt(i) == '<') {
-                        i++;
-                    }
+
 
                     return i;
                 }
@@ -101,15 +123,17 @@ public class AutoCompleteText {
                             TextUtils.copySpansFrom((Spanned) charSequence, 0, charSequence.length(),
                                     Object.class, sp, 0);
                             return sp;
-                        } else {
+                        }
+                        else {
                             return charSequence + ">" + "</" + charSequence + ">";
                         }
                     }
+
                 }
             });
         }
     }
-    }
+
 
 
 
