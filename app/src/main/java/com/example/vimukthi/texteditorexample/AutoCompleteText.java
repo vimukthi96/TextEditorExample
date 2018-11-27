@@ -29,10 +29,11 @@ public class AutoCompleteText {
         this.context = context;
     }
 
-    public void autoOnchange(MultiAutoCompleteTextView editTextView,TextView txtNumberView){
+    public void autoOnchange(MultiAutoCompleteTextView editTextView,TextView txtNumberView) {
 
-        edtTextView =editTextView;
-        txtnumberView =txtNumberView;
+        edtTextView = editTextView;
+        txtnumberView = txtNumberView;
+
 
         int lines = edtTextView.getLineCount();
         String lineText = "";
@@ -41,70 +42,75 @@ public class AutoCompleteText {
 
         }
         txtnumberView.setText(lineText);
-        if(Common.currentDataType.equals("html")||Common.currentDataType.equals("htm")){
-            dataType= context.getResources().getStringArray(R.array.html);}
+       // abc();
+        }
+    public void  abc() {
+        if (Common.currentDataType == "html") {
 
-        adapter = new ArrayAdapter<String>(context, android.R.layout.select_dialog_item, dataType);
-      //  adapter.getPosition();
-      //    adapter.getPosition(Cursor cursor);
-      //  edtTextView.setAdapter(new CustomAdapter(context));
+            dataType = context.getResources().getStringArray(R.array.html);
 
-        edtTextView.setAdapter(adapter);
-        edtTextView.setThreshold(2);
-        edtTextView.setTokenizer(new MultiAutoCompleteTextView.Tokenizer() {
-            @Override
-            public int findTokenStart(CharSequence charSequence, int cursor) {
-                int i = cursor;
+            adapter = new ArrayAdapter<String>(context, android.R.layout.select_dialog_item, dataType);
 
-                while (i >0 && charSequence.charAt(i - 1) != '<') {
-                    i--;
-                }
-                while (i < cursor && charSequence.charAt(i) == '<') {
-                    i++;
-                }
 
-                return i;
-            }
+            edtTextView.setAdapter(adapter);
+            edtTextView.setThreshold(2);
+            edtTextView.setTokenizer(new MultiAutoCompleteTextView.Tokenizer() {
+                @Override
+                public int findTokenStart(CharSequence charSequence, int cursor) {
+                    int i = cursor;
 
-            @Override
-            public int findTokenEnd(CharSequence charSequence, int cursor) {
-                int i = cursor;
-                int len = charSequence.length();
-
-                while (i < len) {
-                    if (charSequence.charAt(i) == '<') {
-                        return i;
-                    } else {
+                    while (i > 0 && charSequence.charAt(i - 1) != '<') {
+                        i--;
+                    }
+                    while (i < cursor && charSequence.charAt(i) == '<') {
                         i++;
                     }
+
+                    return i;
                 }
 
-                return len;
-            }
+                @Override
+                public int findTokenEnd(CharSequence charSequence, int cursor) {
+                    int i = cursor;
+                    int len = charSequence.length();
 
-            @Override
-            public CharSequence terminateToken(CharSequence charSequence) {
-                int i = charSequence.length();
+                    while (i < len) {
+                        if (charSequence.charAt(i) == ' ') {
+                            return i;
+                        } else {
+                            i++;
+                        }
+                    }
 
-                while (i > 0 && charSequence.charAt(i - 1) == ' ') {
-                    i--;
+                    return len;
                 }
 
-                if (i > 0 && charSequence.charAt(i - 1) == ' ') {
-                    return charSequence;
-                } else {
-                    if (charSequence instanceof Spanned) {
-                        SpannableString sp = new SpannableString(charSequence + "");
-                        TextUtils.copySpansFrom((Spanned) charSequence, 0, charSequence.length(),
-                                Object.class, sp, 0);
-                        return sp;
+                @Override
+                public CharSequence terminateToken(CharSequence charSequence) {
+                    int i = charSequence.length();
+
+                    while (i > 0 && charSequence.charAt(i - 1) == ' ') {
+                        i--;
+                    }
+
+                    if (i > 0 && charSequence.charAt(i - 1) == ' ') {
+                        return charSequence;
                     } else {
-                        return charSequence + ">" + "</" + charSequence + ">";
+                        if (charSequence instanceof Spanned) {
+                            SpannableString sp = new SpannableString(charSequence + "");
+                            TextUtils.copySpansFrom((Spanned) charSequence, 0, charSequence.length(),
+                                    Object.class, sp, 0);
+                            return sp;
+                        } else {
+                            return charSequence + ">" + "</" + charSequence + ">";
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
+    }
     }
 
 
-}
+
+

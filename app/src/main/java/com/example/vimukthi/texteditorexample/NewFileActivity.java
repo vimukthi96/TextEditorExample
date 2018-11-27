@@ -44,8 +44,8 @@ public class NewFileActivity extends AppCompatActivity {
     Context context;
     MenuItem save_btn;
     String[] dataType;
-
     StringBuilder regex;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,77 +58,82 @@ public class NewFileActivity extends AppCompatActivity {
         relativeLayout=(RelativeLayout)findViewById(R.id.layout_root);
         helper = new TextViewUndoRedo(edtTextView);
         context=NewFileActivity.this;
-        fileSaveDialog = new FileSaveDialog(context);
         findTextDialog=new FindTextDialog(context);
         autoCompleteText =new AutoCompleteText(context);
         //regex=autoHighlighterText.findext();
-        if(Common.currentDataType.equals("html")||Common.currentDataType.equals("htm")){
-            dataType = context.getResources().getStringArray(R.array.html);
-        }
-        regex = new StringBuilder("\\b(");
-        for (String word : dataType) {
-            regex.append(Pattern.quote(word));
-            regex.append("|");
-        }
-        regex.setLength(regex.length() - 1); // delete last added "|"
-        regex.append(")\\b");
-        edtTextView.addTextChangedListener(new TextWatcher() {
-            ColorScheme keywords = new ColorScheme(
-
-                    Pattern.compile(regex.toString()),
-                    Color.CYAN
-            );
-
-            ColorScheme numbers = new ColorScheme(
-                    Pattern.compile("(\\b(\\d*[.]?\\d+)\\b)"),
-                    Color.BLUE
-            );
-
-            final ColorScheme[] schemes = {keywords, numbers};
-            void removeSpans(Editable e, Class<? extends CharacterStyle> type) {
-                CharacterStyle[] spans = e.getSpans(0, e.length(), type);
-                for (CharacterStyle span : spans) {
-                    e.removeSpan(span);
-                }
+            dataType = getResources().getStringArray(R.array.html);
+            regex = new StringBuilder("\\b(");
+            for (String word : dataType) {
+                regex.append(Pattern.quote(word));
+                regex.append("|");
             }
+            regex.setLength(regex.length() - 1); // delete last added "|"
+            regex.append(")\\b");
+            edtTextView.addTextChangedListener(new TextWatcher() {
+                ColorScheme keywords = new ColorScheme(
 
-            class ColorScheme {
-                final Pattern pattern;
-                final int color;
+                        Pattern.compile(regex.toString()),
+                        Color.CYAN
+                );
 
-                ColorScheme(Pattern pattern, int color) {
-                    this.pattern = pattern;
-                    this.color = color;
-                }
-            }
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+                ColorScheme numbers = new ColorScheme(
+                        Pattern.compile("(\\b(\\d*[.]?\\d+)\\b)"),
+                        Color.BLUE
+                );
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                final ColorScheme[] schemes = {keywords, numbers};
 
-                autoCompleteText.autoOnchange(edtTextView,txtnumberView);
-                textInType();
-
-
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-                removeSpans(editable, ForegroundColorSpan.class);
-                for (ColorScheme scheme : schemes) {
-                    for (Matcher m = scheme.pattern.matcher(editable); m.find(); ) {
-                        editable.setSpan(new ForegroundColorSpan(scheme.color),
-                                m.start(),
-                                m.end(),
-                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                void removeSpans(Editable e, Class<? extends CharacterStyle> type) {
+                    CharacterStyle[] spans = e.getSpans(0, e.length(), type);
+                    for (CharacterStyle span : spans) {
+                        e.removeSpan(span);
                     }
                 }
-            }
-        });
+
+                class ColorScheme {
+                    final Pattern pattern;
+                    final int color;
+
+                    ColorScheme(Pattern pattern, int color) {
+                        this.pattern = pattern;
+                        this.color = color;
+                    }
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    autoCompleteText.autoOnchange(edtTextView, txtnumberView);
+                    textInType();
+
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                    removeSpans(editable, ForegroundColorSpan.class);
+                    for (ColorScheme scheme : schemes) {
+                        for (Matcher m = scheme.pattern.matcher(editable); m.find(); ) {
+                            editable.setSpan(new ForegroundColorSpan(scheme.color),
+                                    m.start(),
+                                    m.end(),
+                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        }
+                    }
+                }
+
+            });
+
 
 }
-            public boolean textInType() {
+
+
+
+    public boolean textInType() {
                 if (edtTextView.getText().length() == 0) {
                    // undoBtn.setEnabled(false);
                     undo_btn.setVisible(false);
@@ -175,7 +180,7 @@ public class NewFileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save_as_btn:
-                if(fileSaveDialog.saveAsDialog(edtTextView,save_btn)==true){
+                if(fileSaveDialog.saveAsDialog()==true){
                  //   save_btn.setVisible(true);
                 }
                 return true;

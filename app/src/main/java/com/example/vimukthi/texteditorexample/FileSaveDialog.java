@@ -37,9 +37,10 @@ public class FileSaveDialog {
 
     }
 
-    public boolean saveAsDialog(MultiAutoCompleteTextView edtTextView, MenuItem save) {
-        editTextView =edtTextView;
-        saveBtn=save;
+    public boolean saveAsDialog(){
+            //MultiAutoCompleteTextView edtTextView, MenuItem save) {
+       // editTextView =edtTextView;
+        //saveBtn=save;
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
         alertDialog.setTitle("Save As");
 
@@ -87,7 +88,7 @@ public class FileSaveDialog {
                 Common.currentDataType=dataType;
 
                 createPDF(FileName,FilePath,FileBody);
-                saveBtn.setVisible(true);
+           //     saveBtn.setVisible(true);
                 //  saveDialog(edtTextName.getText().toString(),edtFolderPath.getText().toString());
             }
         });
