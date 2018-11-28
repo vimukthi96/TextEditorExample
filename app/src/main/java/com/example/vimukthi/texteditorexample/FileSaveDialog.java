@@ -32,8 +32,6 @@ public class FileSaveDialog {
 
 
     Context context;
-    public String currentDataType=Common.currentDataType;
-
     public FileSaveDialog(Context con) {
         this.context =con;
 
@@ -83,10 +81,7 @@ public class FileSaveDialog {
                 FileName = edtTextName.getText().toString();
                 FilePath = edtFolderPath.getText().toString();
                 FileBody = editTextView.getText().toString();
-                String parts[]=FileName.split("\\.");
-                String dataType=parts[1];
 
-                currentDataType=dataType;
 
                 createPDF(FileName,FilePath,FileBody);
                 saveBtn.setVisible(true);
@@ -153,6 +148,10 @@ public class FileSaveDialog {
         }
 
         File file =new File(path,name);
+
+        String parts[]=name.split("\\.");
+        String extention=parts[1];
+        Common.setCurrentExtention(extention);
 
         try {
             FileOutputStream outputStream;

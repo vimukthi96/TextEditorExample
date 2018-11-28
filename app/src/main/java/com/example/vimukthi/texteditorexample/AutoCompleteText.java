@@ -29,23 +29,9 @@ public class AutoCompleteText {
         this.context = context;
     }
 
-    public void autoOnchange(MultiAutoCompleteTextView editTextView,TextView txtNumberView) {
 
-        edtTextView = editTextView;
-        txtnumberView = txtNumberView;
-
-
-        int lines = edtTextView.getLineCount();
-        String lineText = "";
-        for (int r = 1; r <= lines; r++) {
-            lineText = lineText + r + "\n";
-
-        }
-        txtnumberView.setText(lineText);
-       // abc();
-        }
     public void  autoComplete() {
-        switch (Common.currentDataType){
+        switch (Common.getCurrentExtention()){
             case "html":
                 dataType = context.getResources().getStringArray(R.array.html);
                 break;
@@ -66,7 +52,7 @@ public class AutoCompleteText {
 
                     int i = cursor;
 
-                    switch (Common.currentDataType){
+                    switch (Common.getCurrentExtention()){
                         case "html":
                             while (i > 0 && charSequence.charAt(i - 1) != '<') {
                                 i--;

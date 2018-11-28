@@ -32,6 +32,7 @@ public class NewFileActivity extends AppCompatActivity {
     FileSaveDialog fileSaveDialog;
     FindTextDialog findTextDialog;
     AutoCompleteText autoCompleteText;
+    AutoChangeNumberTxtView autoChangeNumberTxtView;
     Context context;
     MenuItem save_btn;
     String[] dataType;
@@ -52,18 +53,16 @@ public class NewFileActivity extends AppCompatActivity {
         fileSaveDialog = new FileSaveDialog(context);
         findTextDialog = new FindTextDialog(context);
         autoCompleteText = new AutoCompleteText(context);
+        autoChangeNumberTxtView=new AutoChangeNumberTxtView(context,edtTextView,txtnumberView);
         //regex=autoHighlighterText.findext();
-        type=fileSaveDialog.currentDataType;
 
-        switch (type) {
+        switch (Common.getCurrentExtention()) {
             case "html":
                 dataType = getResources().getStringArray(R.array.html);
                 break;
             case "txt":
                 dataType = getResources().getStringArray(R.array.txt);
                 break;
-
-
         }
         regex = new StringBuilder("\\b(");
         for (String word : dataType) {
@@ -109,8 +108,9 @@ public class NewFileActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                autoCompleteText.autoOnchange(edtTextView, txtnumberView);
-                autoCompleteText.autoComplete();
+             //   autoCompleteText.autoOnchange(edtTextView, txtnumberView);
+             //   autoCompleteText.autoComplete();
+                autoChangeNumberTxtView.autoOnchange();
                 textInType();
 
 
@@ -119,14 +119,16 @@ public class NewFileActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
 
-                removeSpans(editable, ForegroundColorSpan.class);
-                for (ColorScheme scheme : schemes) {
-                    for (Matcher m = scheme.pattern.matcher(editable); m.find(); ) {
-                        editable.setSpan(new ForegroundColorSpan(scheme.color),
-                                m.start(),
-                                m.end(),
-                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    }
+                    removeSpans(editable, ForegroundColorSpan.class);
+                    for (ColorScheme scheme : schemes) {
+                        for (Matcher m = scheme.pattern.matcher(editable); m.find(); ) {
+                            editable.setSpan(new ForegroundColorSpan(scheme.color),
+                                    m.start(),
+                                    m.end(),
+                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        }
+
+
                 }
             }
 
@@ -206,7 +208,7 @@ public class NewFileActivity extends AppCompatActivity {
 
             case R.id.action_find_btn:
               //  findTextDialog.showFindDialog(edtTextView);
-                Toast.makeText(NewFileActivity.this,type,Toast.LENGTH_LONG).show();
+                Toast.makeText(NewFileActivity.this,Common.getCurrentExtention(),Toast.LENGTH_LONG).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
