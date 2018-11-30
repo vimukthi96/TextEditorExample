@@ -52,27 +52,14 @@ public class NewFileActivity extends AppCompatActivity {
         context = NewFileActivity.this;
         fileSaveDialog = new FileSaveDialog(context);
         findTextDialog = new FindTextDialog(context);
-        autoCompleteText = new AutoCompleteText(context);
+        autoCompleteText = new AutoCompleteText(context,edtTextView);
         autoChangeNumberTxtView=new AutoChangeNumberTxtView(context,edtTextView,txtnumberView);
-        //regex=autoHighlighterText.findext();
 
-        switch (Common.getCurrentExtention()) {
-            case "html":
-                dataType = getResources().getStringArray(R.array.html);
-                break;
-            case "txt":
-                dataType = getResources().getStringArray(R.array.txt);
-                break;
-        }
-        regex = new StringBuilder("\\b(");
-        for (String word : dataType) {
-            regex.append(Pattern.quote(word));
-            regex.append("|");
-        }
-        regex.setLength(regex.length() - 1); // delete last added "|"
-        regex.append(")\\b");
+
+        code();
+
         edtTextView.addTextChangedListener(new TextWatcher() {
-            ColorScheme keywords = new ColorScheme(
+           ColorScheme keywords = new ColorScheme(
 
                     Pattern.compile(regex.toString()),
                     Color.CYAN
@@ -109,7 +96,7 @@ public class NewFileActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
              //   autoCompleteText.autoOnchange(edtTextView, txtnumberView);
-             //   autoCompleteText.autoComplete();
+                autoCompleteText.autoComplete();
                 autoChangeNumberTxtView.autoOnchange();
                 textInType();
 
@@ -136,8 +123,23 @@ public class NewFileActivity extends AppCompatActivity {
 
 
     }
-
-
+    public void code(){
+        switch (Common.getCurrentExtention()) {
+            case "html":
+                dataType = getResources().getStringArray(R.array.html);
+                break;
+            case "txt":
+                dataType = getResources().getStringArray(R.array.txt);
+                break;
+        }
+        regex = new StringBuilder("\\b(");
+        for (String word : dataType) {
+            regex.append(Pattern.quote(word));
+            regex.append("|");
+        }
+        regex.setLength(regex.length() - 1); // delete last added "|"
+        regex.append(")\\b");
+    }
 
     public boolean textInType() {
                 if (edtTextView.getText().length() == 0) {

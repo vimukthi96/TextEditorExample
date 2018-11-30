@@ -19,14 +19,13 @@ import java.util.ResourceBundle;
 public class AutoCompleteText {
     Context context;
     MultiAutoCompleteTextView edtTextView;
-    TextView txtnumberView;
     ArrayAdapter<String> adapter;
     ListView listView ;
     String[] dataType;
-    Cursor cursor;
 
-    public AutoCompleteText(Context context) {
+    public AutoCompleteText(Context context,MultiAutoCompleteTextView edtTextView) {
         this.context = context;
+        this.edtTextView=edtTextView;
     }
 
 
@@ -46,32 +45,20 @@ public class AutoCompleteText {
 
             edtTextView.setAdapter(adapter);
             edtTextView.setThreshold(2);
+           // edtTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
             edtTextView.setTokenizer(new MultiAutoCompleteTextView.Tokenizer() {
                 @Override
                 public int findTokenStart(CharSequence charSequence, int cursor) {
 
                     int i = cursor;
 
-                    switch (Common.getCurrentExtention()){
-                        case "html":
                             while (i > 0 && charSequence.charAt(i - 1) != '<') {
                                 i--;
                             }
                             while (i < cursor && charSequence.charAt(i) == '<') {
                                 i++;
                             }
-                            break;
-                        case "txt":
-                            while (i > 0 && charSequence.charAt(i - 1) != ' ') {
-                                i--;
-                            }
-                            while (i < cursor && charSequence.charAt(i) == ' ') {
-                                i++;
-                            }
-                            break;
-
-
-                    }
 
 
                     return i;
