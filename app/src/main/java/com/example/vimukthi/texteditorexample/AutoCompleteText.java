@@ -34,7 +34,7 @@ public class AutoCompleteText {
             case "html":
                 dataType = context.getResources().getStringArray(R.array.html);
                 break;
-            case "txt":
+            case "css":
                 dataType = context.getResources().getStringArray(R.array.txt);
                 break;
 

@@ -22,7 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class FileSaveDialog {
+public class FileSaveDialog  {
     RelativeLayout relativeLayout;
     MultiAutoCompleteTextView editTextView;
     String FilePath;
@@ -85,6 +85,7 @@ public class FileSaveDialog {
 
                 createPDF(FileName,FilePath,FileBody);
                 saveBtn.setVisible(true);
+
                 //  saveDialog(edtTextName.getText().toString(),edtFolderPath.getText().toString());
             }
         });

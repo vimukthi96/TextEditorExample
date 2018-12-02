@@ -2,6 +2,7 @@ package com.example.vimukthi.texteditorexample;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,6 +40,8 @@ public class NewFileActivity extends colorChange {
     StringBuilder regex;
     String type;
 
+    Common common;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -56,9 +59,8 @@ public class NewFileActivity extends colorChange {
         autoChangeNumberTxtView=new AutoChangeNumberTxtView(context,edtTextView,txtnumberView);
 
 
+
         edtTextView.addTextChangedListener(new TextWatcher() {
-
-
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
@@ -68,9 +70,7 @@ public class NewFileActivity extends colorChange {
              //   autoCompleteText.autoOnchange(edtTextView, txtnumberView);
                 autoCompleteText.autoComplete();
                 autoChangeNumberTxtView.autoOnchange();
-                textInType();
-
-
+               // textInType();
             }
 
             @Override
@@ -80,7 +80,16 @@ public class NewFileActivity extends colorChange {
         });
 
 
+        common=new Common();
+        common.setListener(new Common.ChangeListener() {
+            @Override
+            public void onChange() {
+                recreate();
+
+            }
+        });
     }
+
 
     public boolean textInType() {
                 if (edtTextView.getText().length() == 0) {
@@ -90,12 +99,8 @@ public class NewFileActivity extends colorChange {
                     save_btn.setVisible(false);
                     return false;
                 } else {
-                 //   undoBtn.setEnabled(true);
-                  //  b=true;
                     undo_btn.setVisible(true);
-
                     return true;
-
                 }
             }
 
@@ -110,7 +115,7 @@ public class NewFileActivity extends colorChange {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu){
         //   undo_btn.setEnabled(b);
-        undo_btn.setVisible(false);
+        undo_btn.setVisible(true);
         redo_btn.setVisible(false);
         save_btn.setVisible(false);
         super.onPrepareOptionsMenu(menu);
@@ -129,9 +134,11 @@ public class NewFileActivity extends colorChange {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save_as_btn:
-                if(fileSaveDialog.saveAsDialog(edtTextView,save_btn)==true){
-                 //   save_btn.setVisible(true);
+                if(fileSaveDialog.saveAsDialog(edtTextView,save_btn)==true) {
+
                 }
+
+
                 return true;
 
             case R.id.action_save_btn:
@@ -158,7 +165,8 @@ public class NewFileActivity extends colorChange {
     }
 
 
-    }
+
+}
 
 
 
