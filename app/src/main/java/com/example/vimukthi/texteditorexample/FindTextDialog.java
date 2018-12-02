@@ -38,8 +38,6 @@ public class FindTextDialog {
     SpannableString ss;
     Matcher matcher;
     ActionMode mActionMode;
-    Action action;
-
 
 
     public FindTextDialog(Context context1) {

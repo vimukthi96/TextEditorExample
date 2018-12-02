@@ -20,10 +20,10 @@ import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class NewFileActivity extends AppCompatActivity {
+public class NewFileActivity extends colorChange {
 
     public TextView txtnumberView;
-    public MultiAutoCompleteTextView  edtTextView;
+   // public MultiAutoCompleteTextView  edtTextView;
     RelativeLayout relativeLayout;
     TextViewUndoRedo helper;
     Menu menu;
@@ -43,10 +43,10 @@ public class NewFileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_file);
+     //   setContentView(R.layout.activity_new_file);
 
         txtnumberView = (TextView) findViewById(R.id.numberViewText);
-        edtTextView = (MultiAutoCompleteTextView) findViewById(R.id.edtTextView);
+       // edtTextView = (MultiAutoCompleteTextView) findViewById(R.id.edtTextView);
         relativeLayout = (RelativeLayout) findViewById(R.id.layout_root);
         helper = new TextViewUndoRedo(edtTextView);
         context = NewFileActivity.this;
@@ -56,38 +56,8 @@ public class NewFileActivity extends AppCompatActivity {
         autoChangeNumberTxtView=new AutoChangeNumberTxtView(context,edtTextView,txtnumberView);
 
 
-        code();
-
         edtTextView.addTextChangedListener(new TextWatcher() {
-           ColorScheme keywords = new ColorScheme(
 
-                    Pattern.compile(regex.toString()),
-                    Color.CYAN
-            );
-
-            ColorScheme numbers = new ColorScheme(
-                    Pattern.compile("(\\b(\\d*[.]?\\d+)\\b)"),
-                    Color.BLUE
-            );
-
-            final ColorScheme[] schemes = {keywords, numbers};
-
-            void removeSpans(Editable e, Class<? extends CharacterStyle> type) {
-                CharacterStyle[] spans = e.getSpans(0, e.length(), type);
-                for (CharacterStyle span : spans) {
-                    e.removeSpan(span);
-                }
-            }
-
-            class ColorScheme {
-                final Pattern pattern;
-                final int color;
-
-                ColorScheme(Pattern pattern, int color) {
-                    this.pattern = pattern;
-                    this.color = color;
-                }
-            }
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -105,40 +75,11 @@ public class NewFileActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
-                    removeSpans(editable, ForegroundColorSpan.class);
-                    for (ColorScheme scheme : schemes) {
-                        for (Matcher m = scheme.pattern.matcher(editable); m.find(); ) {
-                            editable.setSpan(new ForegroundColorSpan(scheme.color),
-                                    m.start(),
-                                    m.end(),
-                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        }
-
-
-                }
             }
 
         });
 
 
-    }
-    public void code(){
-        switch (Common.getCurrentExtention()) {
-            case "html":
-                dataType = getResources().getStringArray(R.array.html);
-                break;
-            case "txt":
-                dataType = getResources().getStringArray(R.array.txt);
-                break;
-        }
-        regex = new StringBuilder("\\b(");
-        for (String word : dataType) {
-            regex.append(Pattern.quote(word));
-            regex.append("|");
-        }
-        regex.setLength(regex.length() - 1); // delete last added "|"
-        regex.append(")\\b");
     }
 
     public boolean textInType() {
