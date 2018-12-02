@@ -2,7 +2,7 @@ package com.example.vimukthi.texteditorexample;
 
 public class Common {
 
-    static String currentExtention = "css";
+    static String currentExtention = "txt";
     static ChangeListener listener;
 
     public static String getCurrentExtention() {
