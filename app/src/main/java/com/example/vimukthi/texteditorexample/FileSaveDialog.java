@@ -34,6 +34,7 @@ public class FileSaveDialog  {
     Context context;
     public FileSaveDialog(Context con) {
         this.context =con;
+     //   FilePath= Environment.getExternalStorageDirectory().getAbsolutePath() +"/vTextEditor";
 
     }
 
@@ -84,7 +85,6 @@ public class FileSaveDialog  {
 
 
                 createPDF(FileName,FilePath,FileBody);
-                saveBtn.setVisible(true);
 
                 //  saveDialog(edtTextName.getText().toString(),edtFolderPath.getText().toString());
             }
@@ -106,7 +106,16 @@ public class FileSaveDialog  {
 
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
         alertDialog.setTitle("Save ");
-        alertDialog.setMessage("Do you want to save?");
+       // LayoutInflater layoutInflater = LayoutInflater.from(context);
+       // View layout_save_as = layoutInflater.inflate(R.layout.dialog_save_as, null);
+
+      //  final MaterialEditText edtTextName = layout_save_as.findViewById(R.id.dialog_name);
+       // final MaterialEditText edtFolderPath = layout_save_as.findViewById(R.id.dialog_path);
+
+       // alertDialog.setView(layout_save_as);
+
+      //  edtFolderPath.setText(FilePath);
+       // alertDialog.setMessage("Do you want to save?");
 
         alertDialog.setPositiveButton("Save", new DialogInterface.OnClickListener() {
 
@@ -115,9 +124,9 @@ public class FileSaveDialog  {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
 
-
-
-                FileBody=editTextView.getText().toString();
+            //    FileName = edtTextName.getText().toString();
+            //    FilePath = edtFolderPath.getText().toString();
+                FileBody = editTextView.getText().toString();
                 createPDF(FileName,FilePath,FileBody);
 
             }
@@ -153,6 +162,8 @@ public class FileSaveDialog  {
         String parts[]=name.split("\\.");
         String extention=parts[1];
         Common.setCurrentExtention(extention);
+        saveBtn.setVisible(true);
+
 
         try {
             FileOutputStream outputStream;

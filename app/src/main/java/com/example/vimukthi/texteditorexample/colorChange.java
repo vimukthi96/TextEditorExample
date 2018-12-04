@@ -9,6 +9,8 @@ import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 
@@ -23,6 +25,8 @@ public class colorChange extends AppCompatActivity {
     Context context;
     LanguageProvider languageProvider;
     StringBuilder regex;
+    Common common;
+    MenuItem save_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +111,7 @@ public class colorChange extends AppCompatActivity {
                 }
             }
         });
+
     }
 
 }

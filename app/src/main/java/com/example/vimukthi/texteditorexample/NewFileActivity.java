@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,6 +14,7 @@ import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -59,7 +61,6 @@ public class NewFileActivity extends colorChange {
         autoChangeNumberTxtView=new AutoChangeNumberTxtView(context,edtTextView,txtnumberView);
 
 
-
         edtTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -80,16 +81,29 @@ public class NewFileActivity extends colorChange {
         });
 
 
+
         common=new Common();
         common.setListener(new Common.ChangeListener() {
             @Override
             public void onChange() {
                 recreate();
-
             }
         });
+
     }
 
+    @Override
+    public void recreate() {
+        save_btn.setVisible(true);
+        super.recreate();
+
+    }
+
+    /*@Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        save_btn.setVisible(true);
+    }*/
 
     public boolean textInType() {
                 if (edtTextView.getText().length() == 0) {
@@ -115,7 +129,7 @@ public class NewFileActivity extends colorChange {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu){
         //   undo_btn.setEnabled(b);
-        undo_btn.setVisible(true);
+
         redo_btn.setVisible(false);
         save_btn.setVisible(false);
         super.onPrepareOptionsMenu(menu);
@@ -157,8 +171,8 @@ public class NewFileActivity extends colorChange {
                 return true;
 
             case R.id.action_find_btn:
-              //  findTextDialog.showFindDialog(edtTextView);
-                Toast.makeText(NewFileActivity.this,Common.getCurrentExtention(),Toast.LENGTH_LONG).show();
+                findTextDialog.showFindDialog(edtTextView);
+                //Toast.makeText(NewFileActivity.this,Common.getCurrentExtention(),Toast.LENGTH_LONG).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
