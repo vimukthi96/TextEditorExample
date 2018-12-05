@@ -44,6 +44,7 @@ public class NewFileActivity extends colorChange {
 
     Common common;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -94,8 +95,9 @@ public class NewFileActivity extends colorChange {
 
     @Override
     public void recreate() {
-        save_btn.setVisible(true);
         super.recreate();
+        save_btn.setVisible(true);
+        autoChangeNumberTxtView.autoOnchange();
 
     }
 

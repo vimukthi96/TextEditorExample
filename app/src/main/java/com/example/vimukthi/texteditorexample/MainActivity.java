@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Context context;
+    FileOpenDialog fileOpenDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +62,13 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent intent=new Intent(MainActivity.this,NewFileActivity.class);
                 startActivity(intent);
+            }
+        });
+        btnOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               fileOpenDialog=new FileOpenDialog(context);
+               fileOpenDialog.showDialog();
             }
         });
 
