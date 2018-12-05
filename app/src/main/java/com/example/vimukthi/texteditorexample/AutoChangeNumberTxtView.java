@@ -1,15 +1,16 @@
 package com.example.vimukthi.texteditorexample;
 
 import android.content.Context;
+import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
 public class AutoChangeNumberTxtView {
     Context context;
-    MultiAutoCompleteTextView edtTextView;
+    EditText edtTextView;
     TextView txtnumberView;
 
-    public AutoChangeNumberTxtView(Context context,MultiAutoCompleteTextView editTextView, TextView txtNumberView) {
+    public AutoChangeNumberTxtView(Context context,EditText editTextView, TextView txtNumberView) {
         this.context = context;
         edtTextView = editTextView;
         txtnumberView = txtNumberView;

@@ -13,6 +13,7 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
@@ -23,9 +24,9 @@ public class Action implements ActionMode.Callback {
     ActionMode mActionMode;
     Context c;
     FindTextDialog findTextDialog;
-    MultiAutoCompleteTextView edtTextView;
+    EditText edtTextView;
     Spannable ss;
-    public Action(Context c,MultiAutoCompleteTextView edt) {
+    public Action(Context c,EditText edt) {
         this.c = c;
         edtTextView=edt;
     }

@@ -50,7 +50,9 @@ public class NewFileActivity extends colorChange {
 
         super.onCreate(savedInstanceState);
      //   setContentView(R.layout.activity_new_file);
-
+        Intent inte=getIntent();
+        String body=inte.getStringExtra("body");
+        edtTextView.setText(body);
         txtnumberView = (TextView) findViewById(R.id.numberViewText);
        // edtTextView = (MultiAutoCompleteTextView) findViewById(R.id.edtTextView);
         relativeLayout = (RelativeLayout) findViewById(R.id.layout_root);
@@ -58,8 +60,8 @@ public class NewFileActivity extends colorChange {
         context = NewFileActivity.this;
         fileSaveDialog = new FileSaveDialog(context);
         findTextDialog = new FindTextDialog(context);
-        autoCompleteText = new AutoCompleteText(context,edtTextView);
-        autoChangeNumberTxtView=new AutoChangeNumberTxtView(context,edtTextView,txtnumberView);
+       // autoCompleteText = new AutoCompleteText(context,edtTextView);
+       // autoChangeNumberTxtView=new AutoChangeNumberTxtView(context,edtTextView,txtnumberView);
 
 
         edtTextView.addTextChangedListener(new TextWatcher() {
@@ -70,8 +72,8 @@ public class NewFileActivity extends colorChange {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
              //   autoCompleteText.autoOnchange(edtTextView, txtnumberView);
-                autoCompleteText.autoComplete();
-                autoChangeNumberTxtView.autoOnchange();
+           //     autoCompleteText.autoComplete();
+           //     autoChangeNumberTxtView.autoOnchange();
                // textInType();
             }
 
@@ -97,10 +99,14 @@ public class NewFileActivity extends colorChange {
     public void recreate() {
         super.recreate();
         save_btn.setVisible(true);
-        autoChangeNumberTxtView.autoOnchange();
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Common.setCurrentExtention("txt");
+        super.onBackPressed();
+    }
     /*@Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);

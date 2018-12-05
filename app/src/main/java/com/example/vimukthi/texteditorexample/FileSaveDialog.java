@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -24,7 +25,7 @@ import java.io.IOException;
 
 public class FileSaveDialog  {
     RelativeLayout relativeLayout;
-    MultiAutoCompleteTextView editTextView;
+    EditText editTextView;
     String FilePath;
     String FileName;
     String FileBody;
@@ -38,7 +39,7 @@ public class FileSaveDialog  {
 
     }
 
-    public boolean saveAsDialog(MultiAutoCompleteTextView edtTextView, MenuItem save) {
+    public boolean saveAsDialog(EditText edtTextView, MenuItem save) {
         editTextView =edtTextView;
         saveBtn=save;
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
@@ -101,7 +102,7 @@ public class FileSaveDialog  {
 
         return true;
     }
-    public boolean saveDialog( MultiAutoCompleteTextView edtTextView) {
+    public boolean saveDialog( EditText edtTextView) {
         editTextView =edtTextView;
 
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);

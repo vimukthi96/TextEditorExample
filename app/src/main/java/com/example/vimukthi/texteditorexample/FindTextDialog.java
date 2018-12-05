@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,7 @@ import java.util.regex.Pattern;
 
 public class FindTextDialog {
 
-    MultiAutoCompleteTextView edtTextView;
+    EditText edtTextView;
     Context context;
     String subString;
     String replaceWord;
@@ -45,7 +46,7 @@ public class FindTextDialog {
     }
 
 
-    public boolean showFindDialog(final MultiAutoCompleteTextView editTextView) {
+    public boolean showFindDialog(final EditText editTextView) {
 
         edtTextView = editTextView;
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
@@ -161,7 +162,7 @@ public class FindTextDialog {
 
         } else {
             while (matcher.find()) {
-                ss.setSpan(new BackgroundColorSpan(Color.YELLOW), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ss.setSpan(new BackgroundColorSpan(Color.GRAY), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 mActionMode=((Activity)context).startActionMode(new Action(context,edtTextView));
             }
             edtTextView.setText(ss);

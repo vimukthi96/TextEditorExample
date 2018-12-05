@@ -1,6 +1,7 @@
 package com.example.vimukthi.texteditorexample;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class colorChange extends AppCompatActivity {
 
-    MultiAutoCompleteTextView edtTextView;
+    static EditText edtTextView;
     String[] keyword;
     // private ICodeEditorTextChange codeEditorTextChange;
     Context context;
@@ -32,9 +33,8 @@ public class colorChange extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_file);
-        edtTextView = (MultiAutoCompleteTextView) findViewById(R.id.edtTextView);
+        edtTextView = (EditText) findViewById(R.id.edtTextView);
         languageProvider=new LanguageProvider();
-
         keyword=languageProvider.getLanguage(Common.getCurrentExtention()).getAllCompletions();
         regex = new StringBuilder("\\b(");
         for (String word : keyword) {

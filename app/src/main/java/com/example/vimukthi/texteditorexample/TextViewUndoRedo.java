@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
 import android.text.style.UnderlineSpan;
+import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 
     /**
@@ -35,7 +36,7 @@ import android.widget.MultiAutoCompleteTextView;
         /**
          * The edit text.
          */
-        private MultiAutoCompleteTextView mTextView;
+        private EditText mTextView;
 
         // =================================================================== //
 
@@ -45,7 +46,7 @@ import android.widget.MultiAutoCompleteTextView;
          * @param textView
          *            The text view for which the undo/redo is implemented.
          */
-        public TextViewUndoRedo(MultiAutoCompleteTextView textView) {
+        public TextViewUndoRedo(EditText textView) {
             mTextView = textView;
             mEditHistory = new EditHistory();
             mChangeListener = new EditTextChangeListener();

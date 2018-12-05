@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
@@ -18,12 +19,12 @@ import java.util.ResourceBundle;
 
 public class AutoCompleteText {
     Context context;
-    MultiAutoCompleteTextView edtTextView;
+    EditText edtTextView;
     ArrayAdapter<String> adapter;
     ListView listView ;
     String[] dataType;
 
-    public AutoCompleteText(Context context,MultiAutoCompleteTextView edtTextView) {
+    public AutoCompleteText(Context context,EditText edtTextView) {
         this.context = context;
         this.edtTextView=edtTextView;
     }
@@ -49,7 +50,7 @@ public class AutoCompleteText {
             adapter = new ArrayAdapter<String>(context, android.R.layout.select_dialog_item, dataType);
 
 
-            edtTextView.setAdapter(adapter);
+           /* edtTextView.setAdapter(adapter);
             edtTextView.setThreshold(2);
            // edtTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
@@ -109,7 +110,7 @@ public class AutoCompleteText {
                     }
 
                 }
-            });
+            });*/
         }
     }
 
