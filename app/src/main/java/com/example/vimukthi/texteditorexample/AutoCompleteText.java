@@ -49,10 +49,10 @@ public class AutoCompleteText {
         }
             adapter = new ArrayAdapter<String>(context, android.R.layout.select_dialog_item, dataType);
 
-
-           /* edtTextView.setAdapter(adapter);
+/*
+            edtTextView.setAdapter(adapter);
             edtTextView.setThreshold(2);
-           // edtTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+            edtTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
             edtTextView.setTokenizer(new MultiAutoCompleteTextView.Tokenizer() {
                 @Override

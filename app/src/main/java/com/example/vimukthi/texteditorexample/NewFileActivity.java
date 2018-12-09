@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -67,6 +69,7 @@ public class NewFileActivity extends colorChange {
         edtTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                textInType();
             }
 
             @Override
@@ -74,7 +77,7 @@ public class NewFileActivity extends colorChange {
              //   autoCompleteText.autoOnchange(edtTextView, txtnumberView);
            //     autoCompleteText.autoComplete();
            //     autoChangeNumberTxtView.autoOnchange();
-               // textInType();
+
             }
 
             @Override
@@ -89,9 +92,11 @@ public class NewFileActivity extends colorChange {
         common.setListener(new Common.ChangeListener() {
             @Override
             public void onChange() {
+                helper.clearHistory();
                 recreate();
             }
         });
+
 
     }
 
@@ -102,6 +107,7 @@ public class NewFileActivity extends colorChange {
 
     }
 
+    
     @Override
     public void onBackPressed() {
         Common.setCurrentExtention("txt");
@@ -116,9 +122,9 @@ public class NewFileActivity extends colorChange {
     public boolean textInType() {
                 if (edtTextView.getText().length() == 0) {
                    // undoBtn.setEnabled(false);
-                    undo_btn.setVisible(false);
-                    redo_btn.setVisible(false);
-                    save_btn.setVisible(false);
+                  //  undo_btn.setVisible(false);
+                //   redo_btn.setVisible(false);
+                /*    save_btn.setVisible(false);*/
                     return false;
                 } else {
                     undo_btn.setVisible(true);
@@ -136,8 +142,7 @@ public class NewFileActivity extends colorChange {
             }
     @Override
     public boolean onPrepareOptionsMenu(Menu menu){
-        //   undo_btn.setEnabled(b);
-
+        undo_btn.setVisible(false);
         redo_btn.setVisible(false);
         save_btn.setVisible(false);
         super.onPrepareOptionsMenu(menu);
@@ -185,6 +190,7 @@ public class NewFileActivity extends colorChange {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
 
