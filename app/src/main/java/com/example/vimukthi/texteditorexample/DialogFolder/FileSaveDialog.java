@@ -1,4 +1,4 @@
-package com.example.vimukthi.texteditorexample;
+package com.example.vimukthi.texteditorexample.DialogFolder;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,6 +15,8 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.vimukthi.texteditorexample.Common;
+import com.example.vimukthi.texteditorexample.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.io.DataOutputStream;

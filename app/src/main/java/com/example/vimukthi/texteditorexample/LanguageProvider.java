@@ -1,5 +1,11 @@
 package com.example.vimukthi.texteditorexample;
 
+import com.example.vimukthi.texteditorexample.LanguageFolder.Language;
+import com.example.vimukthi.texteditorexample.LanguageFolder.css;
+import com.example.vimukthi.texteditorexample.LanguageFolder.html;
+import com.example.vimukthi.texteditorexample.LanguageFolder.js;
+import com.example.vimukthi.texteditorexample.LanguageFolder.text;
+
 public class LanguageProvider {
 
     public static Language getLanguage(String lang) {

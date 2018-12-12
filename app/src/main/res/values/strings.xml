@@ -14,15 +14,15 @@
     <string name="error_generic">Error</string>
     <string name="error_undo_queue_empty">Undo Queue Empty</string>
     <string name="error_redo_queue_empty">Redo Queue Empty</string>
-     <string-array name="html">
-         <item>html</item>
-         <item>head</item>
-         <item>body</item>
-         <item>b</item>
-         <item>style</item>
-         <item>u</item>
-         <item>i</item>
-     </string-array>
+    <string-array name="html">
+        <item>html</item>
+        <item>head</item>
+        <item>body</item>
+        <item>b</item>
+        <item>style</item>
+        <item>u</item>
+        <item>i</item>
+    </string-array>
     <string-array name="txt">
         <item>abc</item>
     </string-array>

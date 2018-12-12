@@ -1,34 +1,20 @@
 package com.example.vimukthi.texteditorexample;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
-import android.os.Environment;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Spanned;
 import android.text.TextWatcher;
-import android.text.style.CharacterStyle;
-import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.example.vimukthi.texteditorexample.DialogFolder.FileSaveDialog;
+import com.example.vimukthi.texteditorexample.DialogFolder.FindTextDialog;
 
 public class NewFileActivity extends colorChange {
 
-    public TextView txtnumberView;
-   // public MultiAutoCompleteTextView  edtTextView;
     RelativeLayout relativeLayout;
     TextViewUndoRedo helper;
     Menu menu;
@@ -45,25 +31,23 @@ public class NewFileActivity extends colorChange {
     String type;
 
     Common common;
+    String aBoolean="false";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-     //   setContentView(R.layout.activity_new_file);
         Intent inte=getIntent();
         String body=inte.getStringExtra("body");
+        aBoolean= inte.getStringExtra("bool");
         edtTextView.setText(body);
-        txtnumberView = (TextView) findViewById(R.id.numberViewText);
-       // edtTextView = (MultiAutoCompleteTextView) findViewById(R.id.edtTextView);
         relativeLayout = (RelativeLayout) findViewById(R.id.layout_root);
         helper = new TextViewUndoRedo(edtTextView);
         context = NewFileActivity.this;
         fileSaveDialog = new FileSaveDialog(context);
         findTextDialog = new FindTextDialog(context);
        // autoCompleteText = new AutoCompleteText(context,edtTextView);
-       // autoChangeNumberTxtView=new AutoChangeNumberTxtView(context,edtTextView,txtnumberView);
 
 
         edtTextView.addTextChangedListener(new TextWatcher() {
@@ -76,12 +60,11 @@ public class NewFileActivity extends colorChange {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
              //   autoCompleteText.autoOnchange(edtTextView, txtnumberView);
            //     autoCompleteText.autoComplete();
-           //     autoChangeNumberTxtView.autoOnchange();
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
+
             }
 
         });
@@ -92,10 +75,10 @@ public class NewFileActivity extends colorChange {
         common.setListener(new Common.ChangeListener() {
             @Override
             public void onChange() {
-                helper.clearHistory();
                 recreate();
             }
         });
+
 
 
     }
@@ -107,17 +90,21 @@ public class NewFileActivity extends colorChange {
 
     }
 
-    
+
     @Override
     public void onBackPressed() {
+
         Common.setCurrentExtention("txt");
         super.onBackPressed();
+
+
     }
     /*@Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         save_btn.setVisible(true);
     }*/
+
 
     public boolean textInType() {
                 if (edtTextView.getText().length() == 0) {
@@ -127,8 +114,14 @@ public class NewFileActivity extends colorChange {
                 /*    save_btn.setVisible(false);*/
                     return false;
                 } else {
+                 /*   if(aBoolean.equals("true")){
+                      //  undo_btn.setVisible(false);
+                        return  true;
+
+                    }else {*/
                     undo_btn.setVisible(true);
                     return true;
+                 //   }
                 }
             }
 
@@ -173,9 +166,7 @@ public class NewFileActivity extends colorChange {
                 return true;
 
             case R.id.action_undo_btn:
-                if (textInType() == true) {
-                    performUndo();
-                }
+                performUndo();
                 redo_btn.setVisible(true);
                 return true;
 
@@ -184,8 +175,8 @@ public class NewFileActivity extends colorChange {
                 return true;
 
             case R.id.action_find_btn:
-                findTextDialog.showFindDialog(edtTextView);
-                //Toast.makeText(NewFileActivity.this,Common.getCurrentExtention(),Toast.LENGTH_LONG).show();
+               // findTextDialog.showFindDialog(edtTextView);
+                Toast.makeText(NewFileActivity.this,aBoolean,Toast.LENGTH_LONG).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);

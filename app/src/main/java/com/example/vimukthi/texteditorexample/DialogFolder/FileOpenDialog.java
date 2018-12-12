@@ -1,4 +1,4 @@
-package com.example.vimukthi.texteditorexample;
+package com.example.vimukthi.texteditorexample.DialogFolder;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,6 +13,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.vimukthi.texteditorexample.Common;
+import com.example.vimukthi.texteditorexample.NewFileActivity;
+import com.example.vimukthi.texteditorexample.R;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -133,6 +137,7 @@ public class FileOpenDialog {
             String textBody=sb.toString();
             Intent intent=new Intent(context,NewFileActivity.class);
             intent.putExtra("body", textBody);
+            intent.putExtra("bool","true");
             context.startActivity(intent);
            // colorChange colo=new colorChange();
             //colorChange.edtTextView.setText(textBody);

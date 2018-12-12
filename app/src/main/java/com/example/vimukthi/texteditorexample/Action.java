@@ -2,20 +2,17 @@ package com.example.vimukthi.texteditorexample;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.MultiAutoCompleteTextView;
-import android.widget.Toast;
+
+import com.example.vimukthi.texteditorexample.DialogFolder.FindTextDialog;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

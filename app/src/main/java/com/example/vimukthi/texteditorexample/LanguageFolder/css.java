@@ -1,4 +1,6 @@
-package com.example.vimukthi.texteditorexample;
+package com.example.vimukthi.texteditorexample.LanguageFolder;
+
+import com.example.vimukthi.texteditorexample.ArrayUtils;
 
 import java.util.regex.Pattern;
 
