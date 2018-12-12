@@ -115,7 +115,7 @@ public class FileSaveDialog  {
 
     public void saveDialog(EditText edtTextView) {
         editTextView =edtTextView;
-        if(parts[0].equals("abc")) {
+        if(parts[0].equals("default")) {
             saveAsDialog(editTextView);
         }
         else{
