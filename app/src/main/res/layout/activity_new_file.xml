@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="#000000">
+        android:background="#FFFFFF">
 
             <com.example.vimukthi.texteditorexample.MyEditText
                 android:id="@+id/edtTextView"
@@ -22,7 +22,7 @@
                 android:layout_gravity="left|top"
                 android:backgroundTint="@android:color/white"
                 android:inputType="textAutoComplete|textMultiLine"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:paddingLeft="40dp"
                 android:background="@null"
                 android:textSize="20dp"

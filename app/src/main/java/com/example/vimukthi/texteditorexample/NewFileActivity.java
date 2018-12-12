@@ -95,6 +95,8 @@ public class NewFileActivity extends colorChange {
     public void onBackPressed() {
 
         Common.setCurrentExtention("txt");
+        FileNameClass.currentName="abc.txt";
+      //  fileSaveDialog.saveDialog(edtTextView);
         super.onBackPressed();
 
 
@@ -137,7 +139,7 @@ public class NewFileActivity extends colorChange {
     public boolean onPrepareOptionsMenu(Menu menu){
         undo_btn.setVisible(false);
         redo_btn.setVisible(false);
-        save_btn.setVisible(false);
+        save_btn.setVisible(true);
         super.onPrepareOptionsMenu(menu);
         return true;
     }
@@ -154,7 +156,7 @@ public class NewFileActivity extends colorChange {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save_as_btn:
-                if(fileSaveDialog.saveAsDialog(edtTextView,save_btn)==true) {
+                if(fileSaveDialog.saveAsDialog(edtTextView)==true) {
 
                 }
 

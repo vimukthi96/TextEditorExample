@@ -18,7 +18,7 @@
             android:inputType="text"
             android:textColorHint="@color/colorPrimary"
             android:textSize="20sp"
-            android:text=".txt"
+            android:text="abc.txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:met_baseColor="@color/colorPrimary"

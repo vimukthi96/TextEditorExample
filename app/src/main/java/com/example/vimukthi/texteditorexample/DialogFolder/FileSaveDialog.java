@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.vimukthi.texteditorexample.Common;
+import com.example.vimukthi.texteditorexample.FileNameClass;
 import com.example.vimukthi.texteditorexample.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -28,22 +29,21 @@ import java.io.IOException;
 public class FileSaveDialog  {
     RelativeLayout relativeLayout;
     EditText editTextView;
-    String FilePath;
-    String FileName;
+    String FileName= FileNameClass.currentName;
     String FileBody;
     MenuItem saveBtn;
-
-
+    String name[];
+    String parts[]=FileName.split("\\.");
     Context context;
+
+
     public FileSaveDialog(Context con) {
         this.context =con;
-     //   FilePath= Environment.getExternalStorageDirectory().getAbsolutePath() +"/vTextEditor";
-
+     //
     }
 
-    public boolean saveAsDialog(EditText edtTextView, MenuItem save) {
+    public boolean saveAsDialog(EditText edtTextView) {
         editTextView =edtTextView;
-        saveBtn=save;
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
         alertDialog.setTitle("Save As");
 
@@ -55,8 +55,8 @@ public class FileSaveDialog  {
         final MaterialEditText edtFolderPath = layout_save_as.findViewById(R.id.dialog_path);
 
         alertDialog.setView(layout_save_as);
-        FilePath= Environment.getExternalStorageDirectory().getAbsolutePath() +"/vTextEditor";
-        edtFolderPath.setText(FilePath);
+       // FilePath= Environment.getExternalStorageDirectory().getAbsolutePath() +"/vTextEditor";
+        edtFolderPath.setText(FileNameClass.currentPath);
 
         alertDialog.setPositiveButton("Save As", new DialogInterface.OnClickListener() {
 
@@ -71,6 +71,13 @@ public class FileSaveDialog  {
                 //    Snackbar.make(relativeLayout,"name text field is empty or space",Snackbar.LENGTH_SHORT).show();
                     return;
                 }
+
+
+            /*    name= edtTextName.getText().toString().split("\\.");
+                if(name[0].isEmpty()){
+                   Toast.makeText(context,"Please change the name of your text",Toast.LENGTH_SHORT).show();
+                   return;
+                }*/
                 if (TextUtils.isEmpty(edtFolderPath.getText())) {
                      Toast.makeText(context,"TExt field is empty", Toast.LENGTH_SHORT).show();
                    // Snackbar.make(relativeLayout,"folder path text field is empty or space",Snackbar.LENGTH_SHORT).show();
@@ -83,11 +90,12 @@ public class FileSaveDialog  {
 
                 //fileSaveDialog.
                 FileName = edtTextName.getText().toString();
-                FilePath = edtFolderPath.getText().toString();
+                FileNameClass.currentName=FileName;
+                FileNameClass.currentPath = edtFolderPath.getText().toString();
                 FileBody = editTextView.getText().toString();
 
 
-                createPDF(FileName,FilePath,FileBody);
+                createPDF(FileName,FileNameClass.currentPath,FileBody);
 
                 //  saveDialog(edtTextName.getText().toString(),edtFolderPath.getText().toString());
             }
@@ -104,21 +112,33 @@ public class FileSaveDialog  {
 
         return true;
     }
-    public boolean saveDialog( EditText edtTextView) {
+
+    public void saveDialog(EditText edtTextView) {
         editTextView =edtTextView;
+        if(parts[0].equals("abc")) {
+            saveAsDialog(editTextView);
+        }
+        else{
+            savedb();
+        }
 
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+    }
+
+    private void savedb() {
+
+        //editTextView=editTextView;
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
         alertDialog.setTitle("Save ");
-       // LayoutInflater layoutInflater = LayoutInflater.from(context);
-       // View layout_save_as = layoutInflater.inflate(R.layout.dialog_save_as, null);
+        // LayoutInflater layoutInflater = LayoutInflater.from(context);
+        // View layout_save_as = layoutInflater.inflate(R.layout.dialog_save_as, null);
 
-      //  final MaterialEditText edtTextName = layout_save_as.findViewById(R.id.dialog_name);
-       // final MaterialEditText edtFolderPath = layout_save_as.findViewById(R.id.dialog_path);
+        //  final MaterialEditText edtTextName = layout_save_as.findViewById(R.id.dialog_name);
+        // final MaterialEditText edtFolderPath = layout_save_as.findViewById(R.id.dialog_path);
 
-       // alertDialog.setView(layout_save_as);
+        // alertDialog.setView(layout_save_as);
 
-      //  edtFolderPath.setText(FilePath);
-       // alertDialog.setMessage("Do you want to save?");
+        //  edtFolderPath.setText(FilePath);
+        alertDialog.setMessage("Do you want to save?");
 
         alertDialog.setPositiveButton("Save", new DialogInterface.OnClickListener() {
 
@@ -127,10 +147,10 @@ public class FileSaveDialog  {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
 
-            //    FileName = edtTextName.getText().toString();
-            //    FilePath = edtFolderPath.getText().toString();
+                //    FileName = edtTextName.getText().toString();
+                //    FilePath = edtFolderPath.getText().toString();
                 FileBody = editTextView.getText().toString();
-                createPDF(FileName,FilePath,FileBody);
+                createPDF(FileName,FileNameClass.currentPath,FileBody);
 
             }
 
@@ -145,11 +165,11 @@ public class FileSaveDialog  {
         });
 
         alertDialog.show();
-        return true;
-
 
     }
 
+
+   // String extention=parts[0];
     public void createPDF(String fileName,String filePath,String fileBody){
         String name=fileName;
         String path=filePath ;
@@ -162,11 +182,9 @@ public class FileSaveDialog  {
 
         File file =new File(path,name);
 
-        String parts[]=name.split("\\.");
-        String extention=parts[1];
+        String part[]=name.split("\\.");
+        String extention=part[1];
         Common.setCurrentExtention(extention);
-        saveBtn.setVisible(true);
-
 
         try {
             FileOutputStream outputStream;
