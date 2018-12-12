@@ -8,17 +8,19 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <Button
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="new file"
-        android:id="@+id/newBtn"/>
-
-    <Button
-        android:id="@+id/openBtn"
-        android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:text="Open a File"
+        android:textColor="@color/gray"
+        android:textSize="25dp" />
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/newBtn"
-        android:text="open file" />
+        android:layout_below="@+id/name"
+       android:layout_centerInParent="true"
+        android:text="This is the Code Editor app.Special for Web Design."/>
 
 </RelativeLayout>

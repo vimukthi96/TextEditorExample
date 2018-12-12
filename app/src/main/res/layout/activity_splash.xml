@@ -13,7 +13,7 @@
         android:layout_height="150dp"
         android:src="@drawable/spalshimagetrue"
         android:layout_centerInParent="true"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center_vertical"
         android:scaleType="centerCrop"
         />
     <TextView

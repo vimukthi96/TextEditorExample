@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vimukthi.texteditorexample.Common;
+import com.example.vimukthi.texteditorexample.FileNameClass;
 import com.example.vimukthi.texteditorexample.NewFileActivity;
 import com.example.vimukthi.texteditorexample.R;
 
@@ -79,8 +80,14 @@ public class FileOpenDialog {
                 } else {
                     Toast.makeText(context, selected.toString() , Toast.LENGTH_LONG).show();
                     String Path=selected.toString();
+                    String last = Path.substring(Path.lastIndexOf('/') + 1);
+                    String setPath = Path.substring(0,Path.lastIndexOf('/'));
+                    FileNameClass.currentName=last;
+                    FileNameClass.currentPath=setPath;
                     String[] part=Path.split("\\.");
                     String extention=part[1];
+                    String[] name=Path.split("[\\/\\.]");
+
                     Common.setCurrentExtention(extention);
                     viewFile(selected);
 

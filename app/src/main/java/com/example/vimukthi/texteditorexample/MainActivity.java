@@ -36,8 +36,9 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent=new Intent(MainActivity.this,NewFileActivity.class);
+                startActivity(intent);
+
             }
         });
 
@@ -50,22 +51,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Button btnNew =(Button)findViewById(R.id.newBtn);
-        Button btnOpen =(Button)findViewById(R.id.openBtn);
-        btnNew.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,NewFileActivity.class);
-                startActivity(intent);
-            }
-        });
-        btnOpen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               fileOpenDialog=new FileOpenDialog(context);
-               fileOpenDialog.showDialog();
-            }
-        });
 
     }
 
@@ -107,14 +92,17 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            Toast.makeText(getApplicationContext(),"kjdhgwd",Toast.LENGTH_SHORT).show();
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.btn_new_file) {
 
-        } else if (id == R.id.nav_slideshow) {
+            Intent intent=new Intent(MainActivity.this,NewFileActivity.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.btn_open_file) {
+
+            fileOpenDialog=new FileOpenDialog(context);
+            fileOpenDialog.showDialog();
+
+        } else if (id == R.id.btn_setting) {
 
         } else if (id == R.id.nav_share) {
 

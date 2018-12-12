@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="#FFFFFF">
+        android:background="@color/black">
 
             <com.example.vimukthi.texteditorexample.MyEditText
                 android:id="@+id/edtTextView"
@@ -20,9 +20,8 @@
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/numberViewText"
                 android:layout_gravity="left|top"
-                android:backgroundTint="@android:color/white"
                 android:inputType="textAutoComplete|textMultiLine"
-                android:textColor="@android:color/black"
+                android:textColor="@color/gray"
                 android:paddingLeft="40dp"
                 android:background="@null"
                 android:textSize="20dp"

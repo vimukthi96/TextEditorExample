@@ -3,6 +3,7 @@ package com.example.vimukthi.texteditorexample;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -51,9 +52,11 @@ public class NewFileActivity extends colorChange {
 
 
         edtTextView.addTextChangedListener(new TextWatcher() {
+
+
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                textInType();
+              //  textInType();
             }
 
             @Override
@@ -86,7 +89,6 @@ public class NewFileActivity extends colorChange {
     @Override
     public void recreate() {
         super.recreate();
-        save_btn.setVisible(true);
 
     }
 
@@ -96,7 +98,8 @@ public class NewFileActivity extends colorChange {
 
         Common.setCurrentExtention("txt");
         FileNameClass.currentName="abc.txt";
-      //  fileSaveDialog.saveDialog(edtTextView);
+        FileNameClass.currentPath=Environment.getExternalStorageDirectory().getAbsolutePath() +"/vTextEditor";
+        //fileSaveDialog.saveDialog(edtTextView);
         super.onBackPressed();
 
 
@@ -109,12 +112,12 @@ public class NewFileActivity extends colorChange {
 
 
     public boolean textInType() {
-                if (edtTextView.getText().length() == 0) {
+              /*  if (edtTextView.getText().length()==0) {
                    // undoBtn.setEnabled(false);
                   //  undo_btn.setVisible(false);
                 //   redo_btn.setVisible(false);
                 /*    save_btn.setVisible(false);*/
-                    return false;
+                   /* return false;
                 } else {
                  /*   if(aBoolean.equals("true")){
                       //  undo_btn.setVisible(false);
@@ -124,7 +127,7 @@ public class NewFileActivity extends colorChange {
                     undo_btn.setVisible(true);
                     return true;
                  //   }
-                }
+                //}
             }
 
 
@@ -137,7 +140,7 @@ public class NewFileActivity extends colorChange {
             }
     @Override
     public boolean onPrepareOptionsMenu(Menu menu){
-        undo_btn.setVisible(false);
+        undo_btn.setVisible(true);
         redo_btn.setVisible(false);
         save_btn.setVisible(true);
         super.onPrepareOptionsMenu(menu);
@@ -159,8 +162,6 @@ public class NewFileActivity extends colorChange {
                 if(fileSaveDialog.saveAsDialog(edtTextView)==true) {
 
                 }
-
-
                 return true;
 
             case R.id.action_save_btn:
@@ -177,8 +178,8 @@ public class NewFileActivity extends colorChange {
                 return true;
 
             case R.id.action_find_btn:
-               // findTextDialog.showFindDialog(edtTextView);
-                Toast.makeText(NewFileActivity.this,aBoolean,Toast.LENGTH_LONG).show();
+                findTextDialog.showFindDialog(edtTextView);
+               // Toast.makeText(NewFileActivity.this,aBoolean,Toast.LENGTH_LONG).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
